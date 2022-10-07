@@ -1,9 +1,12 @@
 package response
 
-import "time"
+import (
+	"mygram-api/src/app/user/repository/record"
+	"time"
+)
 
 type RegisterResponse struct {
-	ID       string `json:"id"`
+	ID       int    `json:"id"`
 	Email    string `json:"email"`
 	Username string `json:"username"`
 	Age      int    `json:"age"`
@@ -14,9 +17,18 @@ type LoginResponse struct {
 }
 
 type UpdateResponse struct {
-	ID        string    `json:"id"`
+	ID        int       `json:"id"`
 	Email     string    `json:"email"`
 	Username  string    `json:"username"`
 	Age       int       `json:"age"`
 	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func MapToRegisterResponse(data record.User) RegisterResponse {
+	return RegisterResponse{
+		ID:       data.ID,
+		Email:    data.Email,
+		Username: data.Username,
+		Age:      data.Age,
+	}
 }

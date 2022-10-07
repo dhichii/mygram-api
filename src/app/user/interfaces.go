@@ -8,13 +8,13 @@ import (
 type Service interface {
 	RegisterUser(user *record.User) (*record.User, error)
 	LoginUser(login request.LoginRequest) (*string, error)
-	UpdateUser(id string, user *record.User) (*record.User, error)
-	DeleteUser(id string) error
+	UpdateUser(id int, user *record.User) (*record.User, error)
+	DeleteUser(id int) error
 }
 
 type Repository interface {
 	CreateData(data *record.User) (*record.User, error)
 	FindDataByEmail(email string) (*record.User, error)
-	UpdateData(id string, data *record.User) (*record.User, error)
-	DeleteData(id string) error
+	UpdateData(id int, data *record.User) (*record.User, error)
+	DeleteData(id int) error
 }

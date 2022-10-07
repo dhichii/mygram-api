@@ -1,15 +1,11 @@
 package record
 
-import (
-	"time"
-
-	"github.com/google/uuid"
-)
+import "time"
 
 type User struct {
-	ID        uuid.UUID `gorm:"primaryKey;size:191"`
-	Username  string    `gorm:"type:varchar"`
-	Email     string    `gorm:"type:varchar"`
+	ID        int    `gorm:"primaryKey"`
+	Username  string `gorm:"type:varchar"`
+	Email     string `gorm:"type:varchar"`
 	Password  string
 	Age       int
 	CreatedAt time.Time
