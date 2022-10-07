@@ -32,3 +32,13 @@ func MapToRegisterResponse(data record.User) RegisterResponse {
 		Age:      data.Age,
 	}
 }
+
+func MapToUpdateResponse(data record.User) UpdateResponse {
+	return UpdateResponse{
+		ID:        data.ID,
+		Email:     data.Email,
+		Username:  data.Username,
+		Age:       data.Age,
+		UpdatedAt: data.UpdatedAt,
+	}
+}
