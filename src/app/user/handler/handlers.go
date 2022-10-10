@@ -8,6 +8,7 @@ import (
 	"mygram-api/src/helper"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -32,6 +33,18 @@ func (h *Handler) RegisterUserHandler(c *gin.Context) {
 
 	result, err := h.service.RegisterUser(request.MapToRegisterRequest())
 	if err != nil {
+		if strings.Contains(err.Error(), "unique") {
+			if strings.Contains(err.Error(), "email") {
+				helper.CreateMessageResponse(c, http.StatusBadRequest,
+					"email is already used")
+				return
+			}
+
+			helper.CreateMessageResponse(c, http.StatusBadRequest,
+				"username is already used")
+			return
+		}
+
 		helper.CreateMessageResponse(c, http.StatusInternalServerError,
 			http.StatusText(http.StatusInternalServerError))
 		return
@@ -91,6 +104,18 @@ func (h *Handler) UpdateUserHandler(c *gin.Context) {
 	if err != nil {
 		if err.Error() == "record not found" {
 			helper.CreateMessageResponse(c, http.StatusNotFound, err.Error())
+			return
+		}
+
+		if strings.Contains(err.Error(), "unique") {
+			if strings.Contains(err.Error(), "email") {
+				helper.CreateMessageResponse(c, http.StatusBadRequest,
+					"email is already used")
+				return
+			}
+
+			helper.CreateMessageResponse(c, http.StatusBadRequest,
+				"username is already used")
 			return
 		}
 
