@@ -8,6 +8,6 @@ func CreateHash(password string) string {
 }
 
 func ValidateHash(password, hashed string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(hashed))
+	err := bcrypt.CompareHashAndPassword([]byte(hashed), []byte(password))
 	return err == nil
 }
