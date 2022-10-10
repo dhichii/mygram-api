@@ -13,6 +13,6 @@ type Repository interface {
 	CreateData(data *record.Photo) (*record.Photo, error)
 	GetAllData() ([]record.Photo, error)
 	UpdateData(id int, data *record.Photo) (*record.Photo, error)
-	GetUserIDByID(id int) *string
+	GetUserIDByID(id int) (int, error)
 	DeleteData(id int) error
 }
