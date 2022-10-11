@@ -50,7 +50,7 @@ func (repo *repository) UpdateData(id int, data *record.Photo) (*record.Photo, e
 // GetUserIDByID return the UserID by the given Photo ID
 func (repo *repository) GetUserIDByID(id int) (int, error) {
 	userId := 0
-	if err := repo.db.Table("photos").Select("user_id").First(&userId, "id", id).Error; err != nil {
+	if err := repo.db.Model(new(record.Photo)).Select("user_id").First(&userId, "id", id).Error; err != nil {
 		return 0, err
 	}
 
