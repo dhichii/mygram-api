@@ -44,6 +44,7 @@ func (repo *repository) UpdateData(id int, data *record.Photo) (*record.Photo, e
 		return nil, errors.New(helper.NOTFOUND)
 	}
 
+	data.ID = id
 	return data, nil
 }
 
