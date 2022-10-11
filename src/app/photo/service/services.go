@@ -4,6 +4,7 @@ import (
 	"errors"
 	"mygram-api/src/app/photo"
 	"mygram-api/src/app/photo/repository/record"
+	"mygram-api/src/helper"
 )
 
 type service struct {
@@ -29,7 +30,7 @@ func (s *service) UpdatePhoto(id int, photo *record.Photo) (*record.Photo, error
 	}
 
 	if userId != photo.UserID {
-		return nil, errors.New("forbidden")
+		return nil, errors.New(helper.FORBIDDEN)
 	}
 
 	return s.repo.UpdateData(id, photo)
@@ -44,7 +45,7 @@ func (s *service) DeletePhoto(id, userId int) error {
 	}
 
 	if userIdResult != userId {
-		return errors.New("forbidden")
+		return errors.New(helper.FORBIDDEN)
 	}
 
 	return s.repo.DeleteData(id)

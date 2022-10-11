@@ -4,6 +4,7 @@ import (
 	"errors"
 	"mygram-api/src/app/photo"
 	"mygram-api/src/app/photo/repository/record"
+	"mygram-api/src/helper"
 
 	"gorm.io/gorm"
 )
@@ -40,7 +41,7 @@ func (repo *repository) UpdateData(id int, data *record.Photo) (*record.Photo, e
 	}
 
 	if err == nil && query.RowsAffected < 1 {
-		return nil, errors.New("record not found")
+		return nil, errors.New(helper.NOTFOUND)
 	}
 
 	return data, nil
@@ -60,7 +61,7 @@ func (repo *repository) GetUserIDByID(id int) (int, error) {
 func (repo *repository) DeleteData(id int) error {
 	query := repo.db.Delete(new(record.Photo), "id", id)
 	if query.Error == nil && query.RowsAffected < 1 {
-		return errors.New("record not found")
+		return errors.New(helper.NOTFOUND)
 	}
 
 	return query.Error

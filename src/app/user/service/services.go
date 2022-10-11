@@ -21,7 +21,7 @@ func (s *service) RegisterUser(user *record.User) (*record.User, error) {
 func (s *service) LoginUser(login request.LoginRequest) (*string, error) {
 	record, err := s.repo.FindDataByEmail(login.Email)
 	if err != nil {
-		if err.Error() == "record not found" {
+		if err.Error() == helper.NOTFOUND {
 			return nil, errors.New("invalid email or password")
 		}
 		return nil, err
