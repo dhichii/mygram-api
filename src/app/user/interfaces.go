@@ -15,6 +15,7 @@ type Service interface {
 type Repository interface {
 	CreateData(data *record.User) (*record.User, error)
 	FindDataByEmail(email string) (*record.User, error)
-	UpdateData(id int, data *record.User) (*record.User, error)
+	FindDataByID(id int) (*record.User, error)
+	UpdateData(id int, data *record.User) error
 	DeleteData(id int) error
 }
