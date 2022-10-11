@@ -37,7 +37,11 @@ func (s *service) LoginUser(login request.LoginRequest) (*string, error) {
 
 // UpdateUser update user data by the given id
 func (s *service) UpdateUser(id int, user *record.User) (*record.User, error) {
-	return s.repo.UpdateData(id, user)
+	if err := s.repo.UpdateData(id, user); err != nil {
+		return nil, err
+	}
+
+	return s.repo.FindDataByID(id)
 }
 
 // DeleteUser delete the user data by the given id

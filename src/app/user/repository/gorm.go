@@ -33,19 +33,25 @@ func (repo *repository) FindDataByEmail(email string) (*record.User, error) {
 	return record, nil
 }
 
-// UpdateData update the data by the given id
-func (repo *repository) UpdateData(id int, data *record.User) (*record.User, error) {
-	query := repo.db.Where("id", id).Updates(data)
-	err := query.Error
-	if err == nil && query.RowsAffected < 1 {
-		return nil, errors.New(helper.NOTFOUND)
-	}
-
-	if err != nil {
+// FindDataByID find the data by the given id
+func (repo *repository) FindDataByID(id int) (*record.User, error) {
+	record := &record.User{}
+	if err := repo.db.First(record, "id", id).Error; err != nil {
 		return nil, err
 	}
 
-	return data, nil
+	return record, nil
+}
+
+// UpdateData update the data by the given id
+func (repo *repository) UpdateData(id int, data *record.User) error {
+	query := repo.db.Where("id", id).Updates(data)
+	err := query.Error
+	if err == nil && query.RowsAffected < 1 {
+		return errors.New(helper.NOTFOUND)
+	}
+
+	return err
 }
 
 // DeleteData delete the data by the given id
