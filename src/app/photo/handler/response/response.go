@@ -50,6 +50,13 @@ func MapToPostResponse(res record.Photo) PostResponse {
 	}
 }
 
+func MapToBatchPhotoResponse(res []record.Photo) (responses []PhotoResponse) {
+	for _, photo := range res {
+		responses = append(responses, MapToPhotoResponse(photo))
+	}
+	return
+}
+
 func MapToPhotoResponse(res record.Photo) PhotoResponse {
 	return PhotoResponse{
 		ID:        res.ID,
