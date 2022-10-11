@@ -3,9 +3,9 @@ package request
 import "mygram-api/src/app/photo/repository/record"
 
 type Request struct {
-	Title    string `json:"title"`
+	Title    string `json:"title" binding:"required"`
 	Caption  string `json:"caption"`
-	PhotoUrl string `json:"photo_url"`
+	PhotoUrl string `json:"photo_url" binding:"required"`
 }
 
 func (req *Request) MapToRecord(userId int) *record.Photo {

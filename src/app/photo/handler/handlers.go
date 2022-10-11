@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"mygram-api/src/app/photo"
 	"mygram-api/src/app/photo/handler/request"
 	"mygram-api/src/app/photo/handler/response"
@@ -9,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -22,6 +24,12 @@ func (h *Handler) PostPhotoHandler(c *gin.Context) {
 	userId := int(userData["id"].(float64))
 
 	if err := c.ShouldBindJSON(&request); err != nil {
+		var verr validator.ValidationErrors
+		if errors.As(err, &verr) {
+			c.JSON(http.StatusBadRequest, helper.ValidateRequest(verr))
+			return
+		}
+
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -58,6 +66,12 @@ func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 	}
 
 	if err := c.ShouldBindJSON(&request); err != nil {
+		var verr validator.ValidationErrors
+		if errors.As(err, &verr) {
+			c.JSON(http.StatusBadRequest, helper.ValidateRequest(verr))
+			return
+		}
+
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
