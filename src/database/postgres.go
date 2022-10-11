@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"log"
+	photo "mygram-api/src/app/photo/repository/record"
 	user "mygram-api/src/app/user/repository/record"
 	"mygram-api/src/config/env"
 
@@ -23,7 +24,7 @@ func InitPostgres() {
 		log.Fatal("error connecting to the database: ", err)
 	}
 
-	postgresConn.AutoMigrate(&user.User{})
+	postgresConn.AutoMigrate(&user.User{}, &photo.Photo{})
 }
 
 func GetPostgresConnection() *gorm.DB {

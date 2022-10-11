@@ -102,8 +102,9 @@ func (h *Handler) UpdateUserHandler(c *gin.Context) {
 
 	result, err := h.service.UpdateUser(id, request.MapToUpdateRequest())
 	if err != nil {
-		if err.Error() == "record not found" {
-			helper.CreateMessageResponse(c, http.StatusNotFound, err.Error())
+		if err.Error() == helper.NOTFOUND {
+			helper.CreateMessageResponse(c, http.StatusNotFound,
+				http.StatusText(http.StatusNotFound))
 			return
 		}
 
@@ -135,8 +136,9 @@ func (h *Handler) DeleteUserHandler(c *gin.Context) {
 	}
 
 	if err := h.service.DeleteUser(id); err != nil {
-		if err.Error() == "record not found" {
-			helper.CreateMessageResponse(c, http.StatusNotFound, err.Error())
+		if err.Error() == helper.NOTFOUND {
+			helper.CreateMessageResponse(c, http.StatusNotFound,
+				http.StatusText(http.StatusNotFound))
 			return
 		}
 
