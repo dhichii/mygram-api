@@ -8,7 +8,7 @@ import (
 type PostResponse struct {
 	ID        int       `json:"id"`
 	Title     string    `json:"title"`
-	Caption   string    `json:"string"`
+	Caption   string    `json:"caption"`
 	PhotoUrl  string    `json:"photo_url"`
 	UserID    int       `json:"user_id"`
 	CreatedAt time.Time `json:"created_at"`
@@ -33,7 +33,7 @@ type UserResponse struct {
 type UpdateResponse struct {
 	ID        int       `json:"id"`
 	Title     string    `json:"title"`
-	Caption   string    `json:"string"`
+	Caption   string    `json:"caption"`
 	PhotoUrl  string    `json:"photo_url"`
 	UserID    int       `json:"user_id"`
 	UpdatedAt time.Time `json:"updated_at"`
