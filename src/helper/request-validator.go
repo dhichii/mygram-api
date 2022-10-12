@@ -2,6 +2,7 @@ package helper
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/go-playground/validator/v10"
@@ -14,9 +15,10 @@ type errorValidation struct {
 func ValidateRequest(verr validator.ValidationErrors) errorValidation {
 	errs := make(map[string]string)
 	for _, f := range verr {
-		err := f.ActualTag()
-		err = translate(strings.ToLower(f.Field()), err, f.Param())
-		errs[strings.ToLower(f.Field())] = err
+		regex := regexp.MustCompile("(.)([A-Z])")
+		field := strings.ToLower(regex.ReplaceAllString(f.StructField(), "${1}_$2"))
+		err := translate(field, f.ActualTag(), f.Param())
+		errs[field] = err
 	}
 
 	return errorValidation{errs}
