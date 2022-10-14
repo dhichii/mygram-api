@@ -14,5 +14,5 @@ type SocialMedia struct {
 
 type User struct {
 	ID       int `gorm:"primaryKey"`
-	Username int
+	Username string
 }
