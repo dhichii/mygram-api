@@ -6,7 +6,7 @@ type Service interface {
 	CreateSocialMedia(socialMedia *record.SocialMedia) (*record.SocialMedia, error)
 	GetAllSocialMedias() ([]record.SocialMedia, error)
 	UpdateSocialMedia(id int, socialMedia *record.SocialMedia) (*record.SocialMedia, error)
-	DeleteSocialMedia(id int) error
+	DeleteSocialMedia(id int, userId int) error
 }
 
 type Repository interface {
