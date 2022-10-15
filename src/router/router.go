@@ -28,5 +28,11 @@ func StartServer() *gin.Engine {
 	photo.PUT("/:photoId", handler.Photo.UpdatePhotoHandler)
 	photo.DELETE("/:photoId", handler.Photo.DeletePhotoHandler)
 
+	socialMedia := router.Group("/socialmedias").Use(middleware.Authentication())
+	socialMedia.POST("", handler.SocialMedia.CreateSocialMediaHandler)
+	socialMedia.GET("", handler.SocialMedia.GetAllSocialMediasHandler)
+	socialMedia.PUT("/:socialMediaId", handler.SocialMedia.UpdateSocialMediaHandler)
+	socialMedia.DELETE("/:socialMediaId", handler.SocialMedia.DeleteSocialMediaHandler)
+
 	return router
 }

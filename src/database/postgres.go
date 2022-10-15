@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	photo "mygram-api/src/app/photo/repository/record"
+	"mygram-api/src/app/socialmedia/repository/record"
 	user "mygram-api/src/app/user/repository/record"
 	"mygram-api/src/config/env"
 
@@ -24,7 +25,7 @@ func InitPostgres() {
 		log.Fatal("error connecting to the database: ", err)
 	}
 
-	postgresConn.AutoMigrate(&user.User{}, &photo.Photo{})
+	postgresConn.AutoMigrate(&user.User{}, &photo.Photo{}, &record.SocialMedia{})
 }
 
 func GetPostgresConnection() *gorm.DB {
