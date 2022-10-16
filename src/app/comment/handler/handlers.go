@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"mygram-api/src/app/comment"
 	"mygram-api/src/app/comment/handler/request"
 	"mygram-api/src/app/comment/handler/response"
@@ -9,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type Handler struct {
@@ -18,6 +20,12 @@ type Handler struct {
 func (h *Handler) CreateCommentHandler(c *gin.Context) {
 	request := request.PostRequest{}
 	if err := c.ShouldBindJSON(&request); err != nil {
+		var verr validator.ValidationErrors
+		if errors.As(err, &verr) {
+			c.JSON(http.StatusBadRequest, helper.ValidateRequest(verr))
+			return
+		}
+
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -54,6 +62,12 @@ func (h *Handler) UpdateCommentHandler(c *gin.Context) {
 
 	request := request.UpdateRequest{}
 	if err := c.ShouldBindJSON(&request); err != nil {
+		var verr validator.ValidationErrors
+		if errors.As(err, &verr) {
+			c.JSON(http.StatusBadRequest, helper.ValidateRequest(verr))
+			return
+		}
+
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
