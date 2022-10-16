@@ -18,6 +18,14 @@ type Handler struct {
 	service user.Service
 }
 
+// @Tags User
+// @Summary Register user account
+// @ID register-user
+// @Accept json
+// @Produce json
+// @Param RequestBody body request.RegisterRequest true "json request body"
+// @Success 201 {object} response.RegisterResponse
+// @Router /users/register [post]
 func (h *Handler) RegisterUserHandler(c *gin.Context) {
 	request := request.RegisterRequest{}
 	if err := c.ShouldBindJSON(&request); err != nil {
@@ -53,6 +61,14 @@ func (h *Handler) RegisterUserHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, response.MapToRegisterResponse(*result))
 }
 
+// @Tags User
+// @Summary Login user
+// @ID login-user
+// @Accept json
+// @Produce json
+// @Param RequestBody body request.LoginRequest true "json request body"
+// @Success 200 {object} response.LoginResponse
+// @Router /users/login [post]
 func (h *Handler) LoginUserHandler(c *gin.Context) {
 	request := request.LoginRequest{}
 	if err := c.ShouldBindJSON(&request); err != nil {
@@ -81,6 +97,15 @@ func (h *Handler) LoginUserHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.LoginResponse{Token: *token})
 }
 
+// @Tags User
+// @Summary Update user
+// @ID update-user
+// @Accept json
+// @Produce json
+// @Param id path int true "userId"
+// @Param RequestBody body request.UpdateRequest true "json request body"
+// @Success 200 {object} response.UpdateResponse
+// @Router /users/{userId} [put]
 func (h *Handler) UpdateUserHandler(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {
@@ -128,6 +153,13 @@ func (h *Handler) UpdateUserHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.MapToUpdateResponse(*result))
 }
 
+// @Tags User
+// @Summary Delete user account
+// @ID delete-user
+// @Produce json
+// @Param id path int true "userId"
+// @Success 200 {object} structs.Message
+// @Router /users/{userId} [delete]
 func (h *Handler) DeleteUserHandler(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {
@@ -147,7 +179,7 @@ func (h *Handler) DeleteUserHandler(c *gin.Context) {
 		return
 	}
 
-	helper.CreateMessageResponse(c, http.StatusOK, "your account has been successfully deleted")
+	helper.CreateMessageResponse(c, http.StatusOK, "Your account has been successfully deleted")
 }
 
 func NewHandler(service user.Service) *Handler {
