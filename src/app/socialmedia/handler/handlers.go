@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"mygram-api/src/app/socialmedia"
 	"mygram-api/src/app/socialmedia/handler/request"
 	"mygram-api/src/app/socialmedia/handler/response"
@@ -9,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type Handler struct {
@@ -17,13 +19,18 @@ type Handler struct {
 
 func (h *Handler) CreateSocialMediaHandler(c *gin.Context) {
 	request := request.Request{}
-	userData := helper.GetUserData(c)
-
 	if err := c.ShouldBindJSON(&request); err != nil {
+		var verr validator.ValidationErrors
+		if errors.As(err, &verr) {
+			c.JSON(http.StatusBadRequest, helper.ValidateRequest(verr))
+			return
+		}
+
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
+	userData := helper.GetUserData(c)
 	result, err := h.service.CreateSocialMedia(request.MapToRecord(userData.ID))
 	if err != nil {
 		helper.CreateMessageResponse(c, http.StatusInternalServerError,
@@ -46,19 +53,25 @@ func (h *Handler) GetAllSocialMediasHandler(c *gin.Context) {
 }
 
 func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
-	request := request.Request{}
-	userData := helper.GetUserData(c)
 	id, err := strconv.Atoi(c.Param("socialMediaId"))
 	if err != nil {
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
+	request := request.Request{}
 	if err := c.ShouldBindJSON(&request); err != nil {
+		var verr validator.ValidationErrors
+		if errors.As(err, &verr) {
+			c.JSON(http.StatusBadRequest, helper.ValidateRequest(verr))
+			return
+		}
+
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
+	userData := helper.GetUserData(c)
 	result, err := h.service.UpdateSocialMedia(id, request.MapToRecord(userData.ID))
 	if err != nil {
 		if err.Error() == helper.FORBIDDEN {
