@@ -11,6 +11,7 @@ import (
 // @license.name  MIT
 // @tag.name User
 // @tag.name Photo
+// @tag.name Comment
 // @tag.name Social Media
 func main() {
 	database.InitPostgres()
