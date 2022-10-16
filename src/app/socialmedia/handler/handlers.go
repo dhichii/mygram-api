@@ -127,7 +127,7 @@ func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Param id path int true "socialMediaId"
 // @Success 200 {object} structs.Message
-// @Router /socialmedias/{SocialMediaId} [delete]
+// @Router /socialmedias/{socialMediaId} [delete]
 func (h *Handler) DeleteSocialMediaHandler(c *gin.Context) {
 	userData := helper.GetUserData(c)
 	id, err := strconv.Atoi(c.Param("socialMediaId"))

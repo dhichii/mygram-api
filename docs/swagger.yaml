@@ -588,7 +588,7 @@ paths:
       summary: Create social media
       tags:
       - Social Media
-  /socialmedias/{SocialMediaId}:
+  /socialmedias/{socialMediaId}:
     delete:
       operationId: delete-social-media
       parameters:
@@ -613,7 +613,6 @@ paths:
       summary: Delete social media
       tags:
       - Social Media
-  /socialmedias/{socialMediaId}:
     put:
       consumes:
       - application/json
