@@ -1,8 +1,755 @@
+definitions:
+  mygram-api_src_app_comment_handler_request.UpdateRequest:
+    properties:
+      message:
+        example: example
+        type: string
+    required:
+    - message
+    type: object
+  mygram-api_src_app_comment_handler_response.PhotoResponse:
+    properties:
+      caption:
+        example: no caption
+        type: string
+      id:
+        example: 1
+        type: integer
+      photo_url:
+        example: /example
+        type: string
+      title:
+        example: holiday
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  mygram-api_src_app_comment_handler_response.UpdateResponse:
+    properties:
+      id:
+        example: 1
+        type: integer
+      message:
+        example: wow
+        type: string
+      photo_id:
+        example: 1
+        type: integer
+      updated_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  mygram-api_src_app_photo_handler_request.Request:
+    properties:
+      caption:
+        example: no caption
+        type: string
+      photo_url:
+        example: /example
+        type: string
+      title:
+        example: holiday
+        type: string
+    required:
+    - photo_url
+    - title
+    type: object
+  mygram-api_src_app_photo_handler_response.PhotoResponse:
+    properties:
+      User:
+        $ref: '#/definitions/response.UserResponse'
+      caption:
+        example: no caption
+        type: string
+      created_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      id:
+        example: 1
+        type: integer
+      photo_url:
+        example: /example
+        type: string
+      title:
+        example: holiday
+        type: string
+      updated_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  mygram-api_src_app_photo_handler_response.UpdateResponse:
+    properties:
+      caption:
+        example: no caption
+        type: string
+      id:
+        example: 1
+        type: integer
+      photo_url:
+        example: /example
+        type: string
+      title:
+        example: holiday
+        type: string
+      updated_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  mygram-api_src_app_socialmedia_handler_request.Request:
+    properties:
+      name:
+        example: example
+        type: string
+      social_media_url:
+        example: /example
+        type: string
+    required:
+    - name
+    - social_media_url
+    type: object
+  mygram-api_src_app_socialmedia_handler_response.UpdateResponse:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: example
+        type: string
+      social_media_url:
+        example: /example
+        type: string
+      updated_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  mygram-api_src_app_user_handler_request.UpdateRequest:
+    properties:
+      email:
+        example: example@gmail.com
+        type: string
+      username:
+        example: example
+        type: string
+    required:
+    - email
+    - username
+    type: object
+  mygram-api_src_app_user_handler_response.UpdateResponse:
+    properties:
+      age:
+        example: 19
+        type: integer
+      email:
+        example: example@gmail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      updated_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      username:
+        example: example
+        type: string
+    type: object
+  request.LoginRequest:
+    properties:
+      email:
+        example: example@gmail.com
+        type: string
+      password:
+        example: "123456"
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  request.PostRequest:
+    properties:
+      message:
+        example: example
+        type: string
+      photo_id:
+        example: 1
+        type: integer
+    required:
+    - message
+    - photo_id
+    type: object
+  request.RegisterRequest:
+    properties:
+      age:
+        example: 19
+        minimum: 9
+        type: integer
+      email:
+        example: example@gmail.com
+        type: string
+      password:
+        example: "123456"
+        minLength: 6
+        type: string
+      username:
+        example: example
+        type: string
+    required:
+    - age
+    - email
+    - password
+    - username
+    type: object
+  response.CommentResponse:
+    properties:
+      Photo:
+        $ref: '#/definitions/mygram-api_src_app_comment_handler_response.PhotoResponse'
+      User:
+        $ref: '#/definitions/response.UserResponse'
+      created_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      id:
+        example: 1
+        type: integer
+      message:
+        example: wow
+        type: string
+      photo_id:
+        example: 1
+        type: integer
+      updated_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  response.LoginResponse:
+    properties:
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        type: string
+    type: object
+  response.PostResponse:
+    properties:
+      created_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: example
+        type: string
+      social_media_url:
+        example: /example
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  response.RegisterResponse:
+    properties:
+      age:
+        example: 19
+        type: integer
+      email:
+        example: example@gmail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      username:
+        example: example
+        type: string
+    type: object
+  response.Response:
+    properties:
+      social_medias:
+        items:
+          $ref: '#/definitions/response.SocialMediaResponse'
+        type: array
+    type: object
+  response.SocialMediaResponse:
+    properties:
+      User:
+        $ref: '#/definitions/response.UserResponse'
+      created_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: example
+        type: string
+      social_media_url:
+        example: /example
+        type: string
+      updated_at:
+        example: "2022-10-07T15:54:24.575005+07:00"
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  response.UserResponse:
+    properties:
+      id:
+        example: 1
+        type: integer
+      username:
+        example: example
+        type: string
+    type: object
+  structs.Message:
+    properties:
+      message:
+        example: Your {feature} has been successfully deleted
+        type: string
+    type: object
 info:
   contact:
     email: adhicittamasran@gmail.com
     name: Adhicitta Masran
   license:
     name: MIT
-paths: {}
+paths:
+  /comments:
+    get:
+      operationId: get-all-comments
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.CommentResponse'
+            type: array
+      summary: Get all comments
+      tags:
+      - Comment
+    post:
+      consumes:
+      - application/json
+      operationId: post-comment
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: json request body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/request.PostRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.PostResponse'
+      summary: Post comment
+      tags:
+      - Comment
+  /comments/{commentId}:
+    delete:
+      operationId: delete-comment
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: commentId
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Message'
+      summary: Delete comment
+      tags:
+      - Comment
+    put:
+      consumes:
+      - application/json
+      operationId: update-comment
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: commentId
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: json request body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/mygram-api_src_app_comment_handler_request.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mygram-api_src_app_comment_handler_response.UpdateResponse'
+      summary: Update comment
+      tags:
+      - Comment
+  /photos:
+    get:
+      operationId: get-all-photos
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/mygram-api_src_app_photo_handler_response.PhotoResponse'
+            type: array
+      summary: Get all photos
+      tags:
+      - Photo
+    post:
+      consumes:
+      - application/json
+      operationId: post-photo
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: json request body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/mygram-api_src_app_photo_handler_request.Request'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.PostResponse'
+      summary: Post photo
+      tags:
+      - Photo
+  /photos/{photoId}:
+    delete:
+      operationId: delete-photo
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: photoId
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Message'
+      summary: Delete photo
+      tags:
+      - Photo
+    put:
+      consumes:
+      - application/json
+      operationId: update-photo
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: photoId
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: json request body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/mygram-api_src_app_photo_handler_request.Request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mygram-api_src_app_photo_handler_response.UpdateResponse'
+      summary: Update photo
+      tags:
+      - Photo
+  /socialmedias:
+    get:
+      operationId: get-all-social-medias
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.Response'
+            type: array
+      summary: Get all social medias
+      tags:
+      - Social Media
+    post:
+      consumes:
+      - application/json
+      operationId: create-social-media
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: json request body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/mygram-api_src_app_socialmedia_handler_request.Request'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.PostResponse'
+      summary: Create social media
+      tags:
+      - Social Media
+  /socialmedias/{SocialMediaId}:
+    delete:
+      operationId: delete-social-media
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: socialMediaId
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Message'
+      summary: Delete social media
+      tags:
+      - Social Media
+  /socialmedias/{socialMediaId}:
+    put:
+      consumes:
+      - application/json
+      operationId: update-social-media
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: socialMediaId
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: json request body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/mygram-api_src_app_socialmedia_handler_request.Request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mygram-api_src_app_socialmedia_handler_response.UpdateResponse'
+      summary: Update social media
+      tags:
+      - Social Media
+  /users/{userId}:
+    delete:
+      operationId: delete-user
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: userId
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Message'
+      summary: Delete user account
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      operationId: update-user
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: userId
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: json request body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/mygram-api_src_app_user_handler_request.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mygram-api_src_app_user_handler_response.UpdateResponse'
+      summary: Update user
+      tags:
+      - User
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      operationId: login-user
+      parameters:
+      - description: json request body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.LoginResponse'
+      summary: Login user
+      tags:
+      - User
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      operationId: register-user
+      parameters:
+      - description: json request body
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/request.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.RegisterResponse'
+      summary: Register user account
+      tags:
+      - User
 swagger: "2.0"
+tags:
+- name: User
+- name: Photo
+- name: Comment
+- name: Social Media
