@@ -17,6 +17,15 @@ type Handler struct {
 	service socialmedia.Service
 }
 
+// @Tags Social Media
+// @Summary Create social media
+// @ID create-social-media
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param RequestBody body request.Request true "json request body"
+// @Success 201 {object} response.PostResponse
+// @Router /socialmedias [post]
 func (h *Handler) CreateSocialMediaHandler(c *gin.Context) {
 	request := request.Request{}
 	if err := c.ShouldBindJSON(&request); err != nil {
@@ -41,6 +50,13 @@ func (h *Handler) CreateSocialMediaHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, response.MapToPostResponse(*result))
 }
 
+// @Tags Social Media
+// @Summary Get all social medias
+// @ID get-all-social-medias
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Success 200 {array} response.Response
+// @Router /socialmedias [get]
 func (h *Handler) GetAllSocialMediasHandler(c *gin.Context) {
 	result, err := h.service.GetAllSocialMedias()
 	if err != nil {
@@ -52,6 +68,16 @@ func (h *Handler) GetAllSocialMediasHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.MapToBatchSocialMediaResponse(result))
 }
 
+// @Tags Social Media
+// @Summary Update social media
+// @ID update-social-media
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param id path int true "socialMediaId"
+// @Param RequestBody body request.Request true "json request body"
+// @Success 200 {object} response.UpdateResponse
+// @Router /socialmedias/{socialMediaId} [put]
 func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("socialMediaId"))
 	if err != nil {
@@ -94,6 +120,14 @@ func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.MapToUpdateResponse(*result))
 }
 
+// @Tags Social Media
+// @Summary Delete social media
+// @ID delete-social-media
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param id path int true "socialMediaId"
+// @Success 200 {object} structs.Message
+// @Router /socialmedias/{socialMediaId} [delete]
 func (h *Handler) DeleteSocialMediaHandler(c *gin.Context) {
 	userData := helper.GetUserData(c)
 	id, err := strconv.Atoi(c.Param("socialMediaId"))

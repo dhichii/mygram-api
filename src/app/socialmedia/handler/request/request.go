@@ -3,8 +3,8 @@ package request
 import "mygram-api/src/app/socialmedia/repository/record"
 
 type Request struct {
-	Name           string `json:"name" binding:"required"`
-	SocialMediaUrl string `json:"social_media_url" binding:"required"`
+	Name           string `json:"name" binding:"required" example:"example"`
+	SocialMediaUrl string `json:"social_media_url" binding:"required" example:"/example"`
 }
 
 func (r *Request) MapToRecord(userID int) *record.SocialMedia {

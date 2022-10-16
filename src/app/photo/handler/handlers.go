@@ -18,6 +18,15 @@ type Handler struct {
 	service photo.Service
 }
 
+// @Tags Photo
+// @Summary Post photo
+// @ID post-photo
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param RequestBody body request.Request true "json request body"
+// @Success 201 {object} response.PostResponse
+// @Router /photos [post]
 func (h *Handler) PostPhotoHandler(c *gin.Context) {
 	request := request.Request{}
 	userData := c.MustGet("userData").(jwt.MapClaims)
@@ -44,6 +53,13 @@ func (h *Handler) PostPhotoHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, response.MapToPostResponse(*result))
 }
 
+// @Tags Photo
+// @Summary Get all photos
+// @ID get-all-photos
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Success 200 {array} response.PhotoResponse
+// @Router /photos [get]
 func (h *Handler) GetAllPhotosHandler(c *gin.Context) {
 	result, err := h.service.GetAllPhotos()
 	if err != nil {
@@ -55,6 +71,16 @@ func (h *Handler) GetAllPhotosHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.MapToBatchPhotoResponse(result))
 }
 
+// @Tags Photo
+// @Summary Update photo
+// @ID update-photo
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param id path int true "photoId"
+// @Param RequestBody body request.Request true "json request body"
+// @Success 200 {object} response.UpdateResponse
+// @Router /photos/{photoId} [put]
 func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 	request := request.Request{}
 	userData := c.MustGet("userData").(jwt.MapClaims)
@@ -98,6 +124,14 @@ func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.MapToUpdateResponse(*result))
 }
 
+// @Tags Photo
+// @Summary Delete photo
+// @ID delete-photo
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param id path int true "photoId"
+// @Success 200 {object} structs.Message
+// @Router /photos/{photoId} [delete]
 func (h *Handler) DeletePhotoHandler(c *gin.Context) {
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	userId := int(userData["id"].(float64))

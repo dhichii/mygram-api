@@ -17,6 +17,15 @@ type Handler struct {
 	service comment.Service
 }
 
+// @Tags Comment
+// @Summary Post comment
+// @ID post-comment
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param RequestBody body request.PostRequest true "json request body"
+// @Success 201 {object} response.PostResponse
+// @Router /comments [post]
 func (h *Handler) CreateCommentHandler(c *gin.Context) {
 	request := request.PostRequest{}
 	if err := c.ShouldBindJSON(&request); err != nil {
@@ -41,6 +50,13 @@ func (h *Handler) CreateCommentHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, response.MapToPostResponse(*result))
 }
 
+// @Tags Comment
+// @Summary Get all comments
+// @ID get-all-comments
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Success 200 {array} response.CommentResponse
+// @Router /comments [get]
 func (h *Handler) GetAllCommentsHandler(c *gin.Context) {
 	result, err := h.service.GetAllComments()
 	if err != nil {
@@ -52,7 +68,16 @@ func (h *Handler) GetAllCommentsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.MapToBatchCommentResponse(result))
 }
 
-// func (h *Handler) GetAllCommentsHandler(c *gin.Context)
+// @Tags Comment
+// @Summary Update comment
+// @ID update-comment
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param id path int true "commentId"
+// @Param RequestBody body request.UpdateRequest true "json request body"
+// @Success 200 {object} response.UpdateResponse
+// @Router /comments/{commentId} [put]
 func (h *Handler) UpdateCommentHandler(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("commentId"))
 	if err != nil {
@@ -95,6 +120,14 @@ func (h *Handler) UpdateCommentHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.MapToUpdateResponse(*result))
 }
 
+// @Tags Comment
+// @Summary Delete comment
+// @ID delete-comment
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param id path int true "commentId"
+// @Success 200 {object} structs.Message
+// @Router /comments/{commentId} [delete]
 func (h *Handler) DeleteCommentHandler(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("commentId"))
 	if err != nil {

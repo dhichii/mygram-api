@@ -1,16 +1,27 @@
 package router
 
 import (
+	"mygram-api/docs"
 	"mygram-api/src/adapter"
 	"mygram-api/src/middleware"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"     // swagger embed files
+	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
 )
 
 func StartServer() *gin.Engine {
 	router := gin.Default()
 	handler := adapter.Init()
+
+	docs.SwaggerInfo.Title = "MYGram API"
+	docs.SwaggerInfo.Description = "Social Media API to posting and commenting on photos"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:8080"
+	docs.SwaggerInfo.Schemes = []string{"http"}
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "welcome to MyGram API"})
