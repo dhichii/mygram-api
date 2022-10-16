@@ -9,6 +9,9 @@ import (
 // @contact.name   Adhicitta Masran
 // @contact.email  adhicittamasran@gmail.com
 // @license.name  MIT
+// @tag.name User
+// @tag.name Photo
+// @tag.name Social Media
 func main() {
 	database.InitPostgres()
 	router.StartServer().Run(":" + env.GetServerEnv())
