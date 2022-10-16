@@ -1,6 +1,8 @@
 package adapter
 
 import (
+	comment_factory "mygram-api/src/app/comment/factory"
+	comment_handler "mygram-api/src/app/comment/handler"
 	photo_factory "mygram-api/src/app/photo/factory"
 	photo_handler "mygram-api/src/app/photo/handler"
 	social_media_factory "mygram-api/src/app/socialmedia/factory"
@@ -14,6 +16,7 @@ type handlers struct {
 	User        user_handler.Handler
 	Photo       photo_handler.Handler
 	SocialMedia social_media_handler.Handler
+	Comment     comment_handler.Handler
 }
 
 func Init() handlers {
@@ -22,5 +25,6 @@ func Init() handlers {
 		User:        user_factory.Factory(conn),
 		Photo:       photo_factory.Factory(conn),
 		SocialMedia: social_media_factory.Factory(conn),
+		Comment:     comment_factory.Factory(conn),
 	}
 }

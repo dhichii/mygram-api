@@ -34,5 +34,11 @@ func StartServer() *gin.Engine {
 	socialMedia.PUT("/:socialMediaId", handler.SocialMedia.UpdateSocialMediaHandler)
 	socialMedia.DELETE("/:socialMediaId", handler.SocialMedia.DeleteSocialMediaHandler)
 
+	comment := router.Group("/comments").Use(middleware.Authentication())
+	comment.POST("", handler.Comment.CreateCommentHandler)
+	comment.GET("", handler.Comment.GetAllCommentsHandler)
+	comment.PUT("/:commentId", handler.Comment.UpdateCommentHandler)
+	comment.DELETE("/:commentId", handler.Comment.DeleteCommentHandler)
+
 	return router
 }
