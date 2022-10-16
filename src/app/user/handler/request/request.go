@@ -6,20 +6,20 @@ import (
 )
 
 type RegisterRequest struct {
-	Age      int    `json:"age" binding:"required,min=9"`
-	Email    string `json:"email" binding:"required,email"`
-	Password string `json:"password" binding:"required,min=6"`
-	Username string `json:"username" binding:"required"`
+	Age      int    `json:"age" binding:"required,min=9" example:"19"`
+	Email    string `json:"email" binding:"required,email" example:"example@gmail.com"`
+	Password string `json:"password" binding:"required,min=6" example:"123456"`
+	Username string `json:"username" binding:"required" example:"example"`
 }
 
 type LoginRequest struct {
-	Email    string `json:"email" binding:"required,email"`
-	Password string `json:"password" binding:"required"`
+	Email    string `json:"email" binding:"required,email" example:"example@gmail.com"`
+	Password string `json:"password" binding:"required" example:"123456"`
 }
 
 type UpdateRequest struct {
-	Email    string `json:"email" binding:"required,email"`
-	Username string `json:"username" binding:"required"`
+	Email    string `json:"email" binding:"required,email" example:"example@gmail.com"`
+	Username string `json:"username" binding:"required" example:"example"`
 }
 
 func (req *RegisterRequest) MapToRegisterRequest() *record.User {
