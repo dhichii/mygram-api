@@ -102,6 +102,7 @@ func (h *Handler) LoginUserHandler(c *gin.Context) {
 // @ID update-user
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Param id path int true "userId"
 // @Param RequestBody body request.UpdateRequest true "json request body"
 // @Success 200 {object} response.UpdateResponse
@@ -157,6 +158,7 @@ func (h *Handler) UpdateUserHandler(c *gin.Context) {
 // @Summary Delete user account
 // @ID delete-user
 // @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Param id path int true "userId"
 // @Success 200 {object} structs.Message
 // @Router /users/{userId} [delete]
