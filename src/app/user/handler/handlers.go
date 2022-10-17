@@ -38,7 +38,7 @@ func (h *Handler) RegisterUserHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.service.RegisterUser(request.MapToRegisterRequest())
+	result, err := h.service.RegisterUser(request.MapToRecord())
 	if err != nil {
 		if strings.Contains(err.Error(), "unique") {
 			if strings.Contains(err.Error(), "email") {
@@ -119,7 +119,7 @@ func (h *Handler) UpdateUserHandler(c *gin.Context) {
 	}
 
 	userData := helper.GetUserData(c)
-	result, err := h.service.UpdateUser(userData.ID, request.MapToUpdateRequest())
+	result, err := h.service.UpdateUser(userData.ID, request.MapToRecord())
 	if err != nil {
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
