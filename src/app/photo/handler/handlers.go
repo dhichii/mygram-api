@@ -83,8 +83,6 @@ func (h *Handler) GetAllPhotosHandler(c *gin.Context) {
 // @Router /photos/{photoId} [put]
 func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 	request := request.Request{}
-	userData := c.MustGet("userData").(jwt.MapClaims)
-	userId := int(userData["id"].(float64))
 	id, err := strconv.Atoi(c.Param("photoId"))
 	if err != nil {
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
@@ -102,7 +100,8 @@ func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.service.UpdatePhoto(id, request.MapToRecord(userId))
+	userData := helper.GetUserData(c)
+	result, err := h.service.UpdatePhoto(id, request.MapToRecord(userData.ID))
 	if err != nil {
 		if err.Error() == helper.FORBIDDEN {
 			helper.CreateMessageResponse(c, http.StatusForbidden,
@@ -133,15 +132,14 @@ func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 // @Success 200 {object} structs.Message
 // @Router /photos/{photoId} [delete]
 func (h *Handler) DeletePhotoHandler(c *gin.Context) {
-	userData := c.MustGet("userData").(jwt.MapClaims)
-	userId := int(userData["id"].(float64))
 	id, err := strconv.Atoi(c.Param("photoId"))
 	if err != nil {
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err := h.service.DeletePhoto(id, userId); err != nil {
+	userData := helper.GetUserData(c)
+	if err := h.service.DeletePhoto(id, userData.ID); err != nil {
 		if err.Error() == helper.FORBIDDEN {
 			helper.CreateMessageResponse(c, http.StatusForbidden,
 				http.StatusText(http.StatusForbidden))
