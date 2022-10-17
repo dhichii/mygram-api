@@ -36,7 +36,7 @@ func (m *middleware) PhotoAuthorization() gin.HandlerFunc {
 			return
 		}
 
-		userId, err := m.service.GetUserIdByPhotoId(photoId)
+		userId, err := m.service.GetUserIDByPhotoID(photoId)
 		if err != nil {
 			if err.Error() == helper.NOTFOUND {
 				c.AbortWithStatusJSON(
@@ -74,7 +74,7 @@ func (m *middleware) CommentAuthorization() gin.HandlerFunc {
 			return
 		}
 
-		userId, err := m.service.GetUserIdByCommentId(commentId)
+		userId, err := m.service.GetUserIDByCommentID(commentId)
 		if err != nil {
 			if err.Error() == helper.NOTFOUND {
 				c.AbortWithStatusJSON(
@@ -112,7 +112,7 @@ func (m *middleware) SocialMediaAuthorization() gin.HandlerFunc {
 			return
 		}
 
-		userId, err := m.service.GetUserIdBySocialMediaId(socialMediaId)
+		userId, err := m.service.GetUserIDBySocialMediaID(socialMediaId)
 		if err != nil {
 			if err.Error() == helper.NOTFOUND {
 				c.AbortWithStatusJSON(
