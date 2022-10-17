@@ -41,16 +41,14 @@ func (m *middleware) PhotoAuthorization() gin.HandlerFunc {
 			if err.Error() == helper.NOTFOUND {
 				c.AbortWithStatusJSON(
 					http.StatusNotFound,
-					structs.Message{
-						Message: http.StatusText(http.StatusNotFound)},
+					structs.Message{Message: http.StatusText(http.StatusNotFound)},
 				)
 				return
 			}
 
 			c.AbortWithStatusJSON(
 				http.StatusInternalServerError,
-				structs.Message{
-					Message: http.StatusText(http.StatusInternalServerError)},
+				structs.Message{Message: http.StatusText(http.StatusInternalServerError)},
 			)
 			return
 		}
@@ -59,8 +57,9 @@ func (m *middleware) PhotoAuthorization() gin.HandlerFunc {
 		if userId != userData.ID {
 			c.AbortWithStatusJSON(
 				http.StatusForbidden,
-				http.StatusText(http.StatusForbidden),
+				structs.Message{Message: http.StatusText(http.StatusForbidden)},
 			)
+			return
 		}
 
 		c.Next()
@@ -80,16 +79,14 @@ func (m *middleware) CommentAuthorization() gin.HandlerFunc {
 			if err.Error() == helper.NOTFOUND {
 				c.AbortWithStatusJSON(
 					http.StatusNotFound,
-					structs.Message{
-						Message: http.StatusText(http.StatusNotFound)},
+					structs.Message{Message: http.StatusText(http.StatusNotFound)},
 				)
 				return
 			}
 
 			c.AbortWithStatusJSON(
 				http.StatusInternalServerError,
-				structs.Message{
-					Message: http.StatusText(http.StatusInternalServerError)},
+				structs.Message{Message: http.StatusText(http.StatusInternalServerError)},
 			)
 			return
 		}
@@ -98,8 +95,9 @@ func (m *middleware) CommentAuthorization() gin.HandlerFunc {
 		if userId != userData.ID {
 			c.AbortWithStatusJSON(
 				http.StatusForbidden,
-				http.StatusText(http.StatusForbidden),
+				structs.Message{Message: http.StatusText(http.StatusForbidden)},
 			)
+			return
 		}
 
 		c.Next()
@@ -119,16 +117,14 @@ func (m *middleware) SocialMediaAuthorization() gin.HandlerFunc {
 			if err.Error() == helper.NOTFOUND {
 				c.AbortWithStatusJSON(
 					http.StatusNotFound,
-					structs.Message{
-						Message: http.StatusText(http.StatusNotFound)},
+					structs.Message{Message: http.StatusText(http.StatusNotFound)},
 				)
 				return
 			}
 
 			c.AbortWithStatusJSON(
 				http.StatusInternalServerError,
-				structs.Message{
-					Message: http.StatusText(http.StatusInternalServerError)},
+				structs.Message{Message: http.StatusText(http.StatusInternalServerError)},
 			)
 			return
 		}
@@ -137,8 +133,9 @@ func (m *middleware) SocialMediaAuthorization() gin.HandlerFunc {
 		if userId != userData.ID {
 			c.AbortWithStatusJSON(
 				http.StatusForbidden,
-				http.StatusText(http.StatusForbidden),
+				structs.Message{Message: http.StatusText(http.StatusForbidden)},
 			)
+			return
 		}
 
 		c.Next()
