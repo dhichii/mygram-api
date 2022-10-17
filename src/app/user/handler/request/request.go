@@ -22,7 +22,7 @@ type UpdateRequest struct {
 	Username string `json:"username" binding:"required" example:"example"`
 }
 
-func (req *RegisterRequest) MapToRegisterRequest() *record.User {
+func (req *RegisterRequest) MapToRecord() *record.User {
 	return &record.User{
 		Age:      req.Age,
 		Email:    req.Email,
@@ -31,7 +31,7 @@ func (req *RegisterRequest) MapToRegisterRequest() *record.User {
 	}
 }
 
-func (req *UpdateRequest) MapToUpdateRequest() *record.User {
+func (req *UpdateRequest) MapToRecord() *record.User {
 	return &record.User{
 		Email:    req.Email,
 		Username: req.Username,
