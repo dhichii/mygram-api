@@ -1,8 +1,10 @@
 package repository
 
 import (
+	"errors"
 	"fmt"
 	"mygram-api/src/app/auth"
+	"mygram-api/src/helper"
 
 	"gorm.io/gorm"
 )
@@ -15,8 +17,13 @@ type repository struct {
 func (repo *repository) GetUserIdByFeatureId(feature string, id int) (int, error) {
 	userId := 0
 	query := fmt.Sprintf("SELECT user_id FROM %s WHERE id=%d", feature, id)
-	if err := repo.db.Raw(query).Scan(&userId).Error; err != nil {
+	err := repo.db.Raw(query).Scan(&userId).Error
+	if err != nil {
 		return 0, err
+	}
+
+	if err == nil && userId == 0 {
+		return 0, errors.New(helper.NOTFOUND)
 	}
 
 	return userId, nil
