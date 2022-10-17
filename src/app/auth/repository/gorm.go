@@ -13,8 +13,8 @@ type repository struct {
 	db *gorm.DB
 }
 
-// GetUserIDByID return the UserID by the given Photo ID
-func (repo *repository) GetUserIdByFeatureId(feature string, id int) (int, error) {
+// GetUserIDByFeatureID return the UserID by the given feature ID *example: photos, comments, etc
+func (repo *repository) GetUserIDByFeatureID(feature string, id int) (int, error) {
 	userId := 0
 	query := fmt.Sprintf("SELECT user_id FROM %s WHERE id=%d", feature, id)
 	err := repo.db.Raw(query).Scan(&userId).Error
