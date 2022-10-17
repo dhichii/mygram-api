@@ -7,7 +7,6 @@ import (
 	"mygram-api/src/app/user/handler/response"
 	"mygram-api/src/helper"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -103,17 +102,10 @@ func (h *Handler) LoginUserHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id path int true "userId"
 // @Param RequestBody body request.UpdateRequest true "json request body"
 // @Success 200 {object} response.UpdateResponse
-// @Router /users/{userId} [put]
+// @Router /users [put]
 func (h *Handler) UpdateUserHandler(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("userId"))
-	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
-		return
-	}
-
 	request := request.UpdateRequest{}
 	if err := c.ShouldBindJSON(&request); err != nil {
 		var verr validator.ValidationErrors
@@ -126,7 +118,8 @@ func (h *Handler) UpdateUserHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.service.UpdateUser(id, request.MapToUpdateRequest())
+	userData := helper.GetUserData(c)
+	result, err := h.service.UpdateUser(userData.ID, request.MapToUpdateRequest())
 	if err != nil {
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
@@ -159,17 +152,11 @@ func (h *Handler) UpdateUserHandler(c *gin.Context) {
 // @ID delete-user
 // @Produce json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id path int true "userId"
 // @Success 200 {object} structs.Message
-// @Router /users/{userId} [delete]
+// @Router /users [delete]
 func (h *Handler) DeleteUserHandler(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("userId"))
-	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
-		return
-	}
-
-	if err := h.service.DeleteUser(id); err != nil {
+	userData := helper.GetUserData(c)
+	if err := h.service.DeleteUser(userData.ID); err != nil {
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
 				http.StatusText(http.StatusNotFound))

@@ -30,8 +30,8 @@ func StartServer() *gin.Engine {
 	user := router.Group("/users")
 	user.POST("/register", handler.User.RegisterUserHandler)
 	user.POST("/login", handler.User.LoginUserHandler)
-	user.PUT("/:userId", middleware.Authentication(), handler.User.UpdateUserHandler)
-	user.DELETE("/:userId", middleware.Authentication(), handler.User.DeleteUserHandler)
+	user.PUT("", middleware.Authentication(), handler.User.UpdateUserHandler)
+	user.DELETE("", middleware.Authentication(), handler.User.DeleteUserHandler)
 
 	photo := router.Group("/photos").Use(middleware.Authentication())
 	photo.POST("", handler.Photo.PostPhotoHandler)
