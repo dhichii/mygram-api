@@ -25,7 +25,7 @@ func (repo *repository) CreateData(data *record.Photo) (*record.Photo, error) {
 // GetAllData find all data
 func (repo *repository) GetAllData() ([]record.Photo, error) {
 	records := []record.Photo{}
-	if err := repo.db.Find(&records).Error; err != nil {
+	if err := repo.db.Preload("User").Find(&records).Error; err != nil {
 		return nil, err
 	}
 
