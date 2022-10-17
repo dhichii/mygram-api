@@ -14,6 +14,7 @@ import (
 func StartServer() *gin.Engine {
 	router := gin.Default()
 	handler := adapter.Init()
+	auth := middleware.InitAuthmiddleware()
 
 	docs.SwaggerInfo.Title = "MYGram API"
 	docs.SwaggerInfo.Description = "Social Media API to posting and commenting on photos"
@@ -36,20 +37,20 @@ func StartServer() *gin.Engine {
 	photo := router.Group("/photos").Use(middleware.Authentication())
 	photo.POST("", handler.Photo.PostPhotoHandler)
 	photo.GET("", handler.Photo.GetAllPhotosHandler)
-	photo.PUT("/:photoId", handler.Photo.UpdatePhotoHandler)
-	photo.DELETE("/:photoId", handler.Photo.DeletePhotoHandler)
+	photo.PUT("/:photoId", auth.PhotoAuthorization(), handler.Photo.UpdatePhotoHandler)
+	photo.DELETE("/:photoId", auth.PhotoAuthorization(), handler.Photo.DeletePhotoHandler)
 
 	socialMedia := router.Group("/socialmedias").Use(middleware.Authentication())
 	socialMedia.POST("", handler.SocialMedia.CreateSocialMediaHandler)
 	socialMedia.GET("", handler.SocialMedia.GetAllSocialMediasHandler)
-	socialMedia.PUT("/:socialMediaId", handler.SocialMedia.UpdateSocialMediaHandler)
-	socialMedia.DELETE("/:socialMediaId", handler.SocialMedia.DeleteSocialMediaHandler)
+	socialMedia.PUT("/:socialMediaId", auth.SocialMediaAuthorization(), handler.SocialMedia.UpdateSocialMediaHandler)
+	socialMedia.DELETE("/:socialMediaId", auth.SocialMediaAuthorization(), handler.SocialMedia.DeleteSocialMediaHandler)
 
 	comment := router.Group("/comments").Use(middleware.Authentication())
 	comment.POST("", handler.Comment.CreateCommentHandler)
 	comment.GET("", handler.Comment.GetAllCommentsHandler)
-	comment.PUT("/:commentId", handler.Comment.UpdateCommentHandler)
-	comment.DELETE("/:commentId", handler.Comment.DeleteCommentHandler)
+	comment.PUT("/:commentId", auth.CommentAuthorization(), handler.Comment.UpdateCommentHandler)
+	comment.DELETE("/:commentId", auth.CommentAuthorization(), handler.Comment.DeleteCommentHandler)
 
 	return router
 }

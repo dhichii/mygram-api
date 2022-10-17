@@ -97,15 +97,8 @@ func (h *Handler) UpdateCommentHandler(c *gin.Context) {
 		return
 	}
 
-	userData := helper.GetUserData(c)
-	result, err := h.service.UpdateComment(id, userData.ID, request.Message)
+	result, err := h.service.UpdateComment(id, request.Message)
 	if err != nil {
-		if err.Error() == helper.FORBIDDEN {
-			helper.CreateMessageResponse(c, http.StatusForbidden,
-				http.StatusText(http.StatusForbidden))
-			return
-		}
-
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
 				http.StatusText(http.StatusNotFound))
@@ -135,14 +128,7 @@ func (h *Handler) DeleteCommentHandler(c *gin.Context) {
 		return
 	}
 
-	userData := helper.GetUserData(c)
-	if err := h.service.DeleteComment(id, userData.ID); err != nil {
-		if err.Error() == helper.FORBIDDEN {
-			helper.CreateMessageResponse(c, http.StatusForbidden,
-				http.StatusText(http.StatusForbidden))
-			return
-		}
-
+	if err := h.service.DeleteComment(id); err != nil {
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
 				http.StatusText(http.StatusNotFound))

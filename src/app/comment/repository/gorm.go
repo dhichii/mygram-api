@@ -49,15 +49,6 @@ func (repo *repository) DeleteData(id int) error {
 	return repo.db.Delete(new(record.Photo), "id", id).Error
 }
 
-func (repo *repository) GetUserIDByID(id int) (int, error) {
-	userId := 0
-	if err := repo.db.Model(new(record.Comment)).Select("user_id").First(&userId, "id", id).Error; err != nil {
-		return 0, err
-	}
-
-	return userId, nil
-}
-
 func NewGORMRepository(db *gorm.DB) comment.Repository {
 	return &repository{db}
 }
