@@ -23,7 +23,7 @@ func (repo *repository) CreateData(data *record.SocialMedia) (*record.SocialMedi
 
 func (repo *repository) GetAllData() ([]record.SocialMedia, error) {
 	records := []record.SocialMedia{}
-	if err := repo.db.Find(&records).Error; err != nil {
+	if err := repo.db.Preload("User").Find(&records).Error; err != nil {
 		return nil, err
 	}
 
