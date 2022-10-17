@@ -48,16 +48,6 @@ func (repo *repository) UpdateData(id int, data *record.Photo) (*record.Photo, e
 	return data, nil
 }
 
-// GetUserIDByID return the UserID by the given Photo ID
-func (repo *repository) GetUserIDByID(id int) (int, error) {
-	userId := 0
-	if err := repo.db.Model(new(record.Photo)).Select("user_id").First(&userId, "id", id).Error; err != nil {
-		return 0, err
-	}
-
-	return userId, nil
-}
-
 // DeleteData delete the data by the given id
 func (repo *repository) DeleteData(id int) error {
 	query := repo.db.Delete(new(record.Photo), "id", id)

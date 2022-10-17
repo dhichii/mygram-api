@@ -30,15 +30,6 @@ func (repo *repository) GetAllData() ([]record.SocialMedia, error) {
 	return records, nil
 }
 
-func (repo *repository) GetUserIDByID(id int) (int, error) {
-	userId := 0
-	if err := repo.db.Model(new(record.SocialMedia)).Select("user_id").First(&userId, "id", id).Error; err != nil {
-		return 0, err
-	}
-
-	return userId, nil
-}
-
 func (repo *repository) UpdateData(id int, data *record.SocialMedia) (*record.SocialMedia, error) {
 	query := repo.db.Where("id", id).Updates(data)
 	err := query.Error
