@@ -100,12 +100,6 @@ func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
 	userData := helper.GetUserData(c)
 	result, err := h.service.UpdateSocialMedia(id, request.MapToRecord(userData.ID))
 	if err != nil {
-		if err.Error() == helper.FORBIDDEN {
-			helper.CreateMessageResponse(c, http.StatusForbidden,
-				http.StatusText(http.StatusForbidden))
-			return
-		}
-
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
 				http.StatusText(http.StatusNotFound))
@@ -129,20 +123,13 @@ func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
 // @Success 200 {object} structs.Message
 // @Router /socialmedias/{socialMediaId} [delete]
 func (h *Handler) DeleteSocialMediaHandler(c *gin.Context) {
-	userData := helper.GetUserData(c)
 	id, err := strconv.Atoi(c.Param("socialMediaId"))
 	if err != nil {
 		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err := h.service.DeleteSocialMedia(id, userData.ID); err != nil {
-		if err.Error() == helper.FORBIDDEN {
-			helper.CreateMessageResponse(c, http.StatusForbidden,
-				http.StatusText(http.StatusForbidden))
-			return
-		}
-
+	if err := h.service.DeleteSocialMedia(id); err != nil {
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
 				http.StatusText(http.StatusNotFound))

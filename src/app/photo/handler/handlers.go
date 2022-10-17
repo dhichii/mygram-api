@@ -11,7 +11,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/golang-jwt/jwt"
 )
 
 type Handler struct {
@@ -29,8 +28,7 @@ type Handler struct {
 // @Router /photos [post]
 func (h *Handler) PostPhotoHandler(c *gin.Context) {
 	request := request.Request{}
-	userData := c.MustGet("userData").(jwt.MapClaims)
-	userId := int(userData["id"].(float64))
+	userData := helper.GetUserData(c)
 
 	if err := c.ShouldBindJSON(&request); err != nil {
 		var verr validator.ValidationErrors
@@ -43,7 +41,7 @@ func (h *Handler) PostPhotoHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.service.PostPhoto(request.MapToRecord(userId))
+	result, err := h.service.PostPhoto(request.MapToRecord(userData.ID))
 	if err != nil {
 		helper.CreateMessageResponse(c, http.StatusInternalServerError,
 			http.StatusText(http.StatusInternalServerError))
@@ -103,12 +101,6 @@ func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 	userData := helper.GetUserData(c)
 	result, err := h.service.UpdatePhoto(id, request.MapToRecord(userData.ID))
 	if err != nil {
-		if err.Error() == helper.FORBIDDEN {
-			helper.CreateMessageResponse(c, http.StatusForbidden,
-				http.StatusText(http.StatusForbidden))
-			return
-		}
-
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
 				http.StatusText(http.StatusNotFound))
@@ -138,14 +130,7 @@ func (h *Handler) DeletePhotoHandler(c *gin.Context) {
 		return
 	}
 
-	userData := helper.GetUserData(c)
-	if err := h.service.DeletePhoto(id, userData.ID); err != nil {
-		if err.Error() == helper.FORBIDDEN {
-			helper.CreateMessageResponse(c, http.StatusForbidden,
-				http.StatusText(http.StatusForbidden))
-			return
-		}
-
+	if err := h.service.DeletePhoto(id); err != nil {
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
 				http.StatusText(http.StatusNotFound))
