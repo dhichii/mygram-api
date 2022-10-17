@@ -7,15 +7,15 @@ type service struct {
 }
 
 func (s *service) GetUserIdByPhotoId(photoId int) (int, error) {
-	return s.repo.GetUserIdByFeatureId("photo", photoId)
+	return s.repo.GetUserIdByFeatureId("photos", photoId)
 }
 
 func (s *service) GetUserIdByCommentId(commentId int) (int, error) {
-	return s.repo.GetUserIdByFeatureId("comment", commentId)
+	return s.repo.GetUserIdByFeatureId("comments", commentId)
 }
 
 func (s *service) GetUserIdBySocialMediaId(socialMediaId int) (int, error) {
-	return s.repo.GetUserIdByFeatureId("social_media", socialMediaId)
+	return s.repo.GetUserIdByFeatureId("social_medias", socialMediaId)
 }
 
 func NewService(repo auth.Repository) auth.Service {

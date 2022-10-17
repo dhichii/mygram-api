@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"mygram-api/src/app/auth"
 
 	"gorm.io/gorm"
@@ -13,7 +14,8 @@ type repository struct {
 // GetUserIDByID return the UserID by the given Photo ID
 func (repo *repository) GetUserIdByFeatureId(feature string, id int) (int, error) {
 	userId := 0
-	if err := repo.db.Raw("SELECT user_id FROM ? WHERE id=?", feature, id).Scan(&userId).Error; err != nil {
+	query := fmt.Sprintf("SELECT user_id FROM %s WHERE id=%d", feature, id)
+	if err := repo.db.Raw(query).Scan(&userId).Error; err != nil {
 		return 0, err
 	}
 
