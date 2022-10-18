@@ -8,9 +8,17 @@ type Request struct {
 	PhotoUrl string `json:"photo_url" binding:"required" example:"/example"`
 }
 
-func (req *Request) MapToRecord(userId int) *record.Photo {
+func (req *Request) MapPostToRecord(userId int) *record.Photo {
 	return &record.Photo{
 		UserID:   userId,
+		Title:    req.Title,
+		Caption:  req.Caption,
+		PhotoUrl: req.PhotoUrl,
+	}
+}
+
+func (req *Request) MapUpdateToRecord() *record.Photo {
+	return &record.Photo{
 		Title:    req.Title,
 		Caption:  req.Caption,
 		PhotoUrl: req.PhotoUrl,
