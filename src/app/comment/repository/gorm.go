@@ -39,7 +39,7 @@ func (repo *repository) UpdateData(id int, message string) (*record.Comment, err
 }
 
 func (repo *repository) DeleteData(id int) error {
-	return repo.db.Delete(new(record.Photo), "id", id).Error
+	return repo.db.Delete(new(record.Comment), "id", id).Error
 }
 
 func NewGORMRepository(db *gorm.DB) comment.Repository {
