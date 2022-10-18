@@ -1,20 +1,23 @@
 package service
 
-import "mygram-api/src/app/auth"
+import (
+	"mygram-api/src/app/auth"
+	"mygram-api/src/helper/errs"
+)
 
 type service struct {
 	repo auth.Repository
 }
 
-func (s *service) GetUserIDByPhotoID(photoId int) (int, error) {
+func (s *service) GetUserIDByPhotoID(photoId int) (int, errs.MessageErr) {
 	return s.repo.GetUserIDByFeatureID("photos", photoId)
 }
 
-func (s *service) GetUserIDByCommentID(commentId int) (int, error) {
+func (s *service) GetUserIDByCommentID(commentId int) (int, errs.MessageErr) {
 	return s.repo.GetUserIDByFeatureID("comments", commentId)
 }
 
-func (s *service) GetUserIDBySocialMediaID(socialMediaId int) (int, error) {
+func (s *service) GetUserIDBySocialMediaID(socialMediaId int) (int, errs.MessageErr) {
 	return s.repo.GetUserIDByFeatureID("social_media", socialMediaId)
 }
 
