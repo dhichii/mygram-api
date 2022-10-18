@@ -14,7 +14,7 @@ import (
 func StartServer() *gin.Engine {
 	router := gin.Default()
 	handler := adapter.Init()
-	auth := middleware.InitAuthmiddleware()
+	auth := middleware.InitAuthMiddleware()
 
 	docs.SwaggerInfo.Title = "MYGram API"
 	docs.SwaggerInfo.Description = "Social Media API to posting and commenting on photos"

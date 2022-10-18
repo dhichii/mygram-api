@@ -17,15 +17,15 @@ type middleware struct {
 	service auth.Service
 }
 
-func newAuthmiddleware(service auth.Service) *middleware {
+func newAuthMiddleware(service auth.Service) *middleware {
 	return &middleware{service}
 }
 
-func InitAuthmiddleware() *middleware {
+func InitAuthMiddleware() *middleware {
 	db := database.GetPostgresConnection()
 	repo := repository.NewGORMRepository(db)
 	serv := service.NewService(repo)
-	return newAuthmiddleware(serv)
+	return newAuthMiddleware(serv)
 }
 
 func (m *middleware) PhotoAuthorization() gin.HandlerFunc {
