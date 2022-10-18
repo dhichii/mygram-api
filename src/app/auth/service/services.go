@@ -15,7 +15,7 @@ func (s *service) GetUserIDByCommentID(commentId int) (int, error) {
 }
 
 func (s *service) GetUserIDBySocialMediaID(socialMediaId int) (int, error) {
-	return s.repo.GetUserIDByFeatureID("social_medias", socialMediaId)
+	return s.repo.GetUserIDByFeatureID("social_media", socialMediaId)
 }
 
 func NewService(repo auth.Repository) auth.Service {
