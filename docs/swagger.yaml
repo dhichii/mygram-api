@@ -244,17 +244,20 @@ definitions:
     type: object
   response.PostResponse:
     properties:
+      caption:
+        example: no caption
+        type: string
       created_at:
         example: "2022-10-07T15:54:24.575005+07:00"
         type: string
       id:
         example: 1
         type: integer
-      name:
-        example: example
-        type: string
-      social_media_url:
+      photo_url:
         example: /example
+        type: string
+      title:
+        example: holiday
         type: string
       user_id:
         example: 1
@@ -307,9 +310,9 @@ definitions:
     type: object
   response.UserResponse:
     properties:
-      id:
-        example: 1
-        type: integer
+      email:
+        example: example@gmail.com
+        type: string
       username:
         example: example
         type: string
@@ -645,7 +648,7 @@ paths:
       summary: Update social media
       tags:
       - Social Media
-  /users/{userId}:
+  /users:
     delete:
       operationId: delete-user
       parameters:
@@ -655,11 +658,6 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: userId
-        in: path
-        name: id
-        required: true
-        type: integer
       produces:
       - application/json
       responses:
@@ -681,11 +679,6 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: userId
-        in: path
-        name: id
-        required: true
-        type: integer
       - description: json request body
         in: body
         name: RequestBody
