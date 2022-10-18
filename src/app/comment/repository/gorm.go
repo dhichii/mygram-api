@@ -28,21 +28,14 @@ func (repo *repository) GetAllData() ([]record.Comment, error) {
 	return records, nil
 }
 
-func (repo *repository) UpdateData(id int, data *record.Comment) (*record.Comment, error) {
-	if err := repo.db.Where("id", id).Updates(data).Error; err != nil {
+func (repo *repository) UpdateData(id int, message string) (*record.Comment, error) {
+	data := &record.Comment{}
+	if err := repo.db.Model(&data).Where("id", id).Update("message", message).
+		Scan(data).Error; err != nil {
 		return nil, err
 	}
 
 	return data, nil
-}
-
-func (repo *repository) GetDataByID(id int) (*record.Comment, error) {
-	record := &record.Comment{}
-	if err := repo.db.First(record, "id", id).Error; err != nil {
-		return nil, err
-	}
-
-	return record, nil
 }
 
 func (repo *repository) DeleteData(id int) error {
