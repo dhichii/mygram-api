@@ -3,18 +3,19 @@ package user
 import (
 	"mygram-api/src/app/user/handler/request"
 	"mygram-api/src/app/user/repository/record"
+	"mygram-api/src/helper/errs"
 )
 
 type Service interface {
-	RegisterUser(user *record.User) (*record.User, error)
-	LoginUser(login request.LoginRequest) (*string, error)
-	UpdateUser(id int, user *record.User) (*record.User, error)
-	DeleteUser(id int) error
+	RegisterUser(user *record.User) (*record.User, errs.MessageErr)
+	LoginUser(login request.LoginRequest) (*string, errs.MessageErr)
+	UpdateUser(id int, user *record.User) (*record.User, errs.MessageErr)
+	DeleteUser(id int) errs.MessageErr
 }
 
 type Repository interface {
-	CreateData(data *record.User) (*record.User, error)
-	FindDataByEmail(email string) (*record.User, error)
-	UpdateData(id int, data *record.User) (*record.User, error)
-	DeleteData(id int) error
+	CreateData(data *record.User) (*record.User, errs.MessageErr)
+	FindDataByEmail(email string) (*record.User, errs.MessageErr)
+	UpdateData(id int, data *record.User) (*record.User, errs.MessageErr)
+	DeleteData(id int) errs.MessageErr
 }

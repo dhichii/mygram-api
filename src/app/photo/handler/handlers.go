@@ -43,8 +43,7 @@ func (h *Handler) PostPhotoHandler(c *gin.Context) {
 
 	result, err := h.service.PostPhoto(request.MapPostToRecord(userData.ID))
 	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -61,8 +60,7 @@ func (h *Handler) PostPhotoHandler(c *gin.Context) {
 func (h *Handler) GetAllPhotosHandler(c *gin.Context) {
 	result, err := h.service.GetAllPhotos()
 	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -81,9 +79,9 @@ func (h *Handler) GetAllPhotosHandler(c *gin.Context) {
 // @Router /photos/{photoId} [put]
 func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 	request := request.Request{}
-	id, err := strconv.Atoi(c.Param("photoId"))
-	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
+	id, _ := strconv.Atoi(c.Param("photoId"))
+	if id < 1 {
+		helper.CreateMessageResponse(c, http.StatusBadRequest, "param must be a number greater than 0")
 		return
 	}
 
@@ -100,14 +98,7 @@ func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 
 	result, err := h.service.UpdatePhoto(id, request.MapUpdateToRecord())
 	if err != nil {
-		if err.Error() == helper.NOTFOUND {
-			helper.CreateMessageResponse(c, http.StatusNotFound,
-				http.StatusText(http.StatusNotFound))
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -123,21 +114,14 @@ func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 // @Success 200 {object} structs.Message
 // @Router /photos/{photoId} [delete]
 func (h *Handler) DeletePhotoHandler(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("photoId"))
-	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
+	id, _ := strconv.Atoi(c.Param("photoId"))
+	if id < 1 {
+		helper.CreateMessageResponse(c, http.StatusBadRequest, "param must be a number greater than 0")
 		return
 	}
 
 	if err := h.service.DeletePhoto(id); err != nil {
-		if err.Error() == helper.NOTFOUND {
-			helper.CreateMessageResponse(c, http.StatusNotFound,
-				http.StatusText(http.StatusNotFound))
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 

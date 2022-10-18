@@ -1,9 +1,13 @@
 package helper
 
-import "github.com/gin-gonic/gin"
+import (
+	"mygram-api/src/helper/structs"
 
-func CreateMessageResponse(c *gin.Context, httpCode int, message interface{}) {
-	c.JSON(httpCode, map[string]interface{}{
-		"message": message,
+	"github.com/gin-gonic/gin"
+)
+
+func CreateMessageResponse(c *gin.Context, httpCode int, message string) {
+	c.JSON(httpCode, structs.Message{
+		Message: message,
 	})
 }
