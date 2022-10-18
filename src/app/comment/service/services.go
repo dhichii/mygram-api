@@ -18,13 +18,7 @@ func (s *service) GetAllComments() ([]record.Comment, error) {
 }
 
 func (s *service) UpdateComment(id int, message string) (*record.Comment, error) {
-	record, err := s.repo.GetDataByID(id)
-	if err != nil {
-		return nil, err
-	}
-
-	record.Message = message
-	return s.repo.UpdateData(id, record)
+	return s.repo.UpdateData(id, message)
 }
 
 func (s *service) DeleteComment(id int) error {

@@ -31,7 +31,7 @@ func (repo *repository) GetAllData() ([]record.SocialMedia, error) {
 }
 
 func (repo *repository) UpdateData(id int, data *record.SocialMedia) (*record.SocialMedia, error) {
-	query := repo.db.Where("id", id).Updates(data)
+	query := repo.db.Where("id", id).Updates(data).Scan(data)
 	err := query.Error
 	if err != nil {
 		return nil, err
@@ -41,7 +41,6 @@ func (repo *repository) UpdateData(id int, data *record.SocialMedia) (*record.So
 		return nil, errors.New(helper.NOTFOUND)
 	}
 
-	data.ID = id
 	return data, nil
 }
 

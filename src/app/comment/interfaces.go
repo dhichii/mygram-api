@@ -12,7 +12,6 @@ type Service interface {
 type Repository interface {
 	CreateData(data *record.Comment) (*record.Comment, error)
 	GetAllData() ([]record.Comment, error)
-	UpdateData(id int, data *record.Comment) (*record.Comment, error)
-	GetDataByID(id int) (*record.Comment, error)
+	UpdateData(id int, data string) (*record.Comment, error)
 	DeleteData(id int) error
 }

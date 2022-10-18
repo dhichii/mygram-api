@@ -34,7 +34,7 @@ func (repo *repository) GetAllData() ([]record.Photo, error) {
 
 // UpdateData Update the data by the given id
 func (repo *repository) UpdateData(id int, data *record.Photo) (*record.Photo, error) {
-	query := repo.db.Where("id", id).Updates(data)
+	query := repo.db.Where("id", id).Updates(data).Scan(data)
 	err := query.Error
 	if err != nil {
 		return nil, err

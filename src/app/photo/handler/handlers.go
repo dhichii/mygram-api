@@ -41,7 +41,7 @@ func (h *Handler) PostPhotoHandler(c *gin.Context) {
 		return
 	}
 
-	result, err := h.service.PostPhoto(request.MapToRecord(userData.ID))
+	result, err := h.service.PostPhoto(request.MapPostToRecord(userData.ID))
 	if err != nil {
 		helper.CreateMessageResponse(c, http.StatusInternalServerError,
 			http.StatusText(http.StatusInternalServerError))
@@ -98,8 +98,7 @@ func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 		return
 	}
 
-	userData := helper.GetUserData(c)
-	result, err := h.service.UpdatePhoto(id, request.MapToRecord(userData.ID))
+	result, err := h.service.UpdatePhoto(id, request.MapUpdateToRecord())
 	if err != nil {
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,

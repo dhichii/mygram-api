@@ -7,10 +7,17 @@ type Request struct {
 	SocialMediaUrl string `json:"social_media_url" binding:"required" example:"/example"`
 }
 
-func (r *Request) MapToRecord(userID int) *record.SocialMedia {
+func (r *Request) MapPostToRecord(userID int) *record.SocialMedia {
 	return &record.SocialMedia{
 		Name:           r.Name,
 		SocialMediaUrl: r.SocialMediaUrl,
 		UserID:         userID,
+	}
+}
+
+func (r *Request) MapUpdateToRecord() *record.SocialMedia {
+	return &record.SocialMedia{
+		Name:           r.Name,
+		SocialMediaUrl: r.SocialMediaUrl,
 	}
 }

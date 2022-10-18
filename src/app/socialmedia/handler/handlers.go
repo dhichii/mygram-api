@@ -40,7 +40,7 @@ func (h *Handler) CreateSocialMediaHandler(c *gin.Context) {
 	}
 
 	userData := helper.GetUserData(c)
-	result, err := h.service.CreateSocialMedia(request.MapToRecord(userData.ID))
+	result, err := h.service.CreateSocialMedia(request.MapPostToRecord(userData.ID))
 	if err != nil {
 		helper.CreateMessageResponse(c, http.StatusInternalServerError,
 			http.StatusText(http.StatusInternalServerError))
@@ -97,8 +97,7 @@ func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
 		return
 	}
 
-	userData := helper.GetUserData(c)
-	result, err := h.service.UpdateSocialMedia(id, request.MapToRecord(userData.ID))
+	result, err := h.service.UpdateSocialMedia(id, request.MapUpdateToRecord())
 	if err != nil {
 		if err.Error() == helper.NOTFOUND {
 			helper.CreateMessageResponse(c, http.StatusNotFound,
