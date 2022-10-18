@@ -3,6 +3,8 @@ package repository
 import (
 	"mygram-api/src/app/comment"
 	"mygram-api/src/app/comment/repository/record"
+	"mygram-api/src/helper/errs"
+	"net/http"
 
 	"gorm.io/gorm"
 )
@@ -11,35 +13,39 @@ type repository struct {
 	db *gorm.DB
 }
 
-func (repo *repository) CreateData(data *record.Comment) (*record.Comment, error) {
+func (repo *repository) CreateData(data *record.Comment) (*record.Comment, errs.MessageErr) {
 	if err := repo.db.Create(data).Error; err != nil {
-		return nil, err
+		return nil, errs.NewError(http.StatusInternalServerError)
 	}
 
 	return data, nil
 }
 
-func (repo *repository) GetAllData() ([]record.Comment, error) {
+func (repo *repository) GetAllData() ([]record.Comment, errs.MessageErr) {
 	records := []record.Comment{}
 	if err := repo.db.Preload("User").Preload("Photo").Find(&records).Error; err != nil {
-		return nil, err
+		return nil, errs.NewError(http.StatusInternalServerError)
 	}
 
 	return records, nil
 }
 
-func (repo *repository) UpdateData(id int, message string) (*record.Comment, error) {
+func (repo *repository) UpdateData(id int, message string) (*record.Comment, errs.MessageErr) {
 	data := &record.Comment{}
 	if err := repo.db.Model(&data).Where("id", id).Update("message", message).
 		Scan(data).Error; err != nil {
-		return nil, err
+		return nil, errs.NewError(http.StatusInternalServerError)
 	}
 
 	return data, nil
 }
 
-func (repo *repository) DeleteData(id int) error {
-	return repo.db.Delete(new(record.Comment), "id", id).Error
+func (repo *repository) DeleteData(id int) errs.MessageErr {
+	if err := repo.db.Delete(new(record.Comment), "id", id).Error; err != nil {
+		return errs.NewError(http.StatusInternalServerError)
+	}
+
+	return nil
 }
 
 func NewGORMRepository(db *gorm.DB) comment.Repository {

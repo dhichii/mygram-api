@@ -1,17 +1,20 @@
 package comment
 
-import "mygram-api/src/app/comment/repository/record"
+import (
+	"mygram-api/src/app/comment/repository/record"
+	"mygram-api/src/helper/errs"
+)
 
 type Service interface {
-	CreateComment(comment *record.Comment) (*record.Comment, error)
-	GetAllComments() ([]record.Comment, error)
-	UpdateComment(id int, message string) (*record.Comment, error)
-	DeleteComment(id int) error
+	CreateComment(comment *record.Comment) (*record.Comment, errs.MessageErr)
+	GetAllComments() ([]record.Comment, errs.MessageErr)
+	UpdateComment(id int, message string) (*record.Comment, errs.MessageErr)
+	DeleteComment(id int) errs.MessageErr
 }
 
 type Repository interface {
-	CreateData(data *record.Comment) (*record.Comment, error)
-	GetAllData() ([]record.Comment, error)
-	UpdateData(id int, data string) (*record.Comment, error)
-	DeleteData(id int) error
+	CreateData(data *record.Comment) (*record.Comment, errs.MessageErr)
+	GetAllData() ([]record.Comment, errs.MessageErr)
+	UpdateData(id int, data string) (*record.Comment, errs.MessageErr)
+	DeleteData(id int) errs.MessageErr
 }

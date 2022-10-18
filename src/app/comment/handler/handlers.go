@@ -42,8 +42,7 @@ func (h *Handler) CreateCommentHandler(c *gin.Context) {
 	userData := helper.GetUserData(c)
 	result, err := h.service.CreateComment(request.MapToRecord(userData.ID))
 	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -60,8 +59,7 @@ func (h *Handler) CreateCommentHandler(c *gin.Context) {
 func (h *Handler) GetAllCommentsHandler(c *gin.Context) {
 	result, err := h.service.GetAllComments()
 	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -99,14 +97,7 @@ func (h *Handler) UpdateCommentHandler(c *gin.Context) {
 
 	result, err := h.service.UpdateComment(id, request.Message)
 	if err != nil {
-		if err.Error() == helper.NOTFOUND {
-			helper.CreateMessageResponse(c, http.StatusNotFound,
-				http.StatusText(http.StatusNotFound))
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -129,14 +120,7 @@ func (h *Handler) DeleteCommentHandler(c *gin.Context) {
 	}
 
 	if err := h.service.DeleteComment(id); err != nil {
-		if err.Error() == helper.NOTFOUND {
-			helper.CreateMessageResponse(c, http.StatusNotFound,
-				http.StatusText(http.StatusNotFound))
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
