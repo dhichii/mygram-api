@@ -7,7 +7,6 @@ import (
 	"mygram-api/src/app/user/handler/response"
 	"mygram-api/src/helper"
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -40,20 +39,7 @@ func (h *Handler) RegisterUserHandler(c *gin.Context) {
 
 	result, err := h.service.RegisterUser(request.MapToRecord())
 	if err != nil {
-		if strings.Contains(err.Error(), "unique") {
-			if strings.Contains(err.Error(), "email") {
-				helper.CreateMessageResponse(c, http.StatusBadRequest,
-					"email is already used")
-				return
-			}
-
-			helper.CreateMessageResponse(c, http.StatusBadRequest,
-				"username is already used")
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -83,13 +69,7 @@ func (h *Handler) LoginUserHandler(c *gin.Context) {
 
 	token, err := h.service.LoginUser(request)
 	if err != nil {
-		if err.Error() == "invalid email or password" {
-			helper.CreateMessageResponse(c, http.StatusUnauthorized, err.Error())
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -121,26 +101,7 @@ func (h *Handler) UpdateUserHandler(c *gin.Context) {
 	userData := helper.GetUserData(c)
 	result, err := h.service.UpdateUser(userData.ID, request.MapToRecord())
 	if err != nil {
-		if err.Error() == helper.NOTFOUND {
-			helper.CreateMessageResponse(c, http.StatusNotFound,
-				http.StatusText(http.StatusNotFound))
-			return
-		}
-
-		if strings.Contains(err.Error(), "unique") {
-			if strings.Contains(err.Error(), "email") {
-				helper.CreateMessageResponse(c, http.StatusBadRequest,
-					"email is already used")
-				return
-			}
-
-			helper.CreateMessageResponse(c, http.StatusBadRequest,
-				"username is already used")
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -157,14 +118,7 @@ func (h *Handler) UpdateUserHandler(c *gin.Context) {
 func (h *Handler) DeleteUserHandler(c *gin.Context) {
 	userData := helper.GetUserData(c)
 	if err := h.service.DeleteUser(userData.ID); err != nil {
-		if err.Error() == helper.NOTFOUND {
-			helper.CreateMessageResponse(c, http.StatusNotFound,
-				http.StatusText(http.StatusNotFound))
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 

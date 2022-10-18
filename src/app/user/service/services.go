@@ -1,11 +1,13 @@
 package service
 
 import (
-	"errors"
 	"mygram-api/src/app/user"
 	"mygram-api/src/app/user/handler/request"
 	"mygram-api/src/app/user/repository/record"
 	"mygram-api/src/helper"
+	"mygram-api/src/helper/errs"
+	"net/http"
+	"strings"
 )
 
 type service struct {
@@ -13,22 +15,32 @@ type service struct {
 }
 
 // RegisterUser register the new user by create new data
-func (s *service) RegisterUser(user *record.User) (*record.User, error) {
-	return s.repo.CreateData(user)
+func (s *service) RegisterUser(user *record.User) (*record.User, errs.MessageErr) {
+	result, err := s.repo.CreateData(user)
+	if err != nil {
+		if strings.Contains(err.Message(), "unique") {
+			if strings.Contains(err.Message(), "email") {
+				return nil, errs.NewCustomError(http.StatusBadRequest, "email is already used")
+			}
+
+			return nil, errs.NewCustomError(http.StatusBadRequest, "username is already used")
+		}
+
+		return nil, errs.NewError(err.Status())
+	}
+
+	return result, nil
 }
 
 // LoginUser login the user and return the jwt if request valid
-func (s *service) LoginUser(login request.LoginRequest) (*string, error) {
+func (s *service) LoginUser(login request.LoginRequest) (*string, errs.MessageErr) {
 	record, err := s.repo.FindDataByEmail(login.Email)
 	if err != nil {
-		if err.Error() == helper.NOTFOUND {
-			return nil, errors.New("invalid email or password")
-		}
 		return nil, err
 	}
 
 	if !helper.ValidateHash(login.Password, record.Password) {
-		return nil, errors.New("invalid email or password")
+		return nil, errs.NewCustomError(http.StatusUnauthorized, "invalid email or password")
 	}
 
 	token := helper.GenerateJWT(record.ID)
@@ -36,12 +48,25 @@ func (s *service) LoginUser(login request.LoginRequest) (*string, error) {
 }
 
 // UpdateUser update user data by the given id
-func (s *service) UpdateUser(id int, user *record.User) (*record.User, error) {
-	return s.repo.UpdateData(id, user)
+func (s *service) UpdateUser(id int, user *record.User) (*record.User, errs.MessageErr) {
+	result, err := s.repo.UpdateData(id, user)
+	if err != nil {
+		if strings.Contains(err.Message(), "unique") {
+			if strings.Contains(err.Message(), "email") {
+				return nil, errs.NewCustomError(http.StatusBadRequest, "email is already used")
+			}
+
+			return nil, errs.NewCustomError(http.StatusBadRequest, "username is already used")
+		}
+
+		return nil, errs.NewError(err.Status())
+	}
+
+	return result, nil
 }
 
 // DeleteUser delete the user data by the given id
-func (s *service) DeleteUser(id int) error {
+func (s *service) DeleteUser(id int) errs.MessageErr {
 	return s.repo.DeleteData(id)
 }
 
