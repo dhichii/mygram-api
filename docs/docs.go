@@ -493,6 +493,76 @@ const docTemplate = `{
                 }
             }
         },
+        "/users": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user",
+                "operationId": "update-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "json request body",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_src_app_user_handler_request.UpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mygram-api_src_app_user_handler_response.UpdateResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete user account",
+                "operationId": "delete-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Message"
+                        }
+                    }
+                }
+            }
+        },
         "/users/login": {
             "post": {
                 "consumes": [
@@ -556,90 +626,6 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/response.RegisterResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/users/{userId}": {
-            "put": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Update user",
-                "operationId": "update-user",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "Bearer \u003cAdd access token here\u003e",
-                        "description": "Insert your access token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "userId",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "json request body",
-                        "name": "RequestBody",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/mygram-api_src_app_user_handler_request.UpdateRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/mygram-api_src_app_user_handler_response.UpdateResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Delete user account",
-                "operationId": "delete-user",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "Bearer \u003cAdd access token here\u003e",
-                        "description": "Insert your access token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "userId",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/structs.Message"
                         }
                     }
                 }
@@ -989,6 +975,10 @@ const docTemplate = `{
         "response.PostResponse": {
             "type": "object",
             "properties": {
+                "caption": {
+                    "type": "string",
+                    "example": "no caption"
+                },
                 "created_at": {
                     "type": "string",
                     "example": "2022-10-07T15:54:24.575005+07:00"
@@ -997,13 +987,13 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 1
                 },
-                "name": {
-                    "type": "string",
-                    "example": "example"
-                },
-                "social_media_url": {
+                "photo_url": {
                     "type": "string",
                     "example": "/example"
+                },
+                "title": {
+                    "type": "string",
+                    "example": "holiday"
                 },
                 "user_id": {
                     "type": "integer",
@@ -1078,9 +1068,9 @@ const docTemplate = `{
         "response.UserResponse": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "integer",
-                    "example": 1
+                "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
                 },
                 "username": {
                     "type": "string",
