@@ -26,3 +26,10 @@ func NewError(status int) MessageErr {
 		ErrStatus:  status,
 	}
 }
+
+func NewCustomError(status int, message string) MessageErr {
+	return &messageErrData{
+		ErrMessage: message,
+		ErrStatus:  status,
+	}
+}
