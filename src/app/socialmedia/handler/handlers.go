@@ -42,8 +42,7 @@ func (h *Handler) CreateSocialMediaHandler(c *gin.Context) {
 	userData := helper.GetUserData(c)
 	result, err := h.service.CreateSocialMedia(request.MapPostToRecord(userData.ID))
 	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -60,8 +59,7 @@ func (h *Handler) CreateSocialMediaHandler(c *gin.Context) {
 func (h *Handler) GetAllSocialMediasHandler(c *gin.Context) {
 	result, err := h.service.GetAllSocialMedias()
 	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -99,14 +97,7 @@ func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
 
 	result, err := h.service.UpdateSocialMedia(id, request.MapUpdateToRecord())
 	if err != nil {
-		if err.Error() == helper.NOTFOUND {
-			helper.CreateMessageResponse(c, http.StatusNotFound,
-				http.StatusText(http.StatusNotFound))
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 
@@ -129,14 +120,7 @@ func (h *Handler) DeleteSocialMediaHandler(c *gin.Context) {
 	}
 
 	if err := h.service.DeleteSocialMedia(id); err != nil {
-		if err.Error() == helper.NOTFOUND {
-			helper.CreateMessageResponse(c, http.StatusNotFound,
-				http.StatusText(http.StatusNotFound))
-			return
-		}
-
-		helper.CreateMessageResponse(c, http.StatusInternalServerError,
-			http.StatusText(http.StatusInternalServerError))
+		helper.CreateMessageResponse(c, err.Status(), err.Message())
 		return
 	}
 

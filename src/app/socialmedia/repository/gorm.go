@@ -1,10 +1,10 @@
 package repository
 
 import (
-	"errors"
 	"mygram-api/src/app/socialmedia"
 	"mygram-api/src/app/socialmedia/repository/record"
-	"mygram-api/src/helper"
+	"mygram-api/src/helper/errs"
+	"net/http"
 
 	"gorm.io/gorm"
 )
@@ -13,44 +13,37 @@ type repository struct {
 	db *gorm.DB
 }
 
-func (repo *repository) CreateData(data *record.SocialMedia) (*record.SocialMedia, error) {
+func (repo *repository) CreateData(data *record.SocialMedia) (*record.SocialMedia, errs.MessageErr) {
 	if err := repo.db.Create(data).Error; err != nil {
-		return nil, err
+		return nil, errs.NewError(http.StatusInternalServerError)
 	}
 
 	return data, nil
 }
 
-func (repo *repository) GetAllData() ([]record.SocialMedia, error) {
+func (repo *repository) GetAllData() ([]record.SocialMedia, errs.MessageErr) {
 	records := []record.SocialMedia{}
 	if err := repo.db.Preload("User").Find(&records).Error; err != nil {
-		return nil, err
+		return nil, errs.NewError(http.StatusInternalServerError)
 	}
 
 	return records, nil
 }
 
-func (repo *repository) UpdateData(id int, data *record.SocialMedia) (*record.SocialMedia, error) {
-	query := repo.db.Where("id", id).Updates(data).Scan(data)
-	err := query.Error
-	if err != nil {
-		return nil, err
-	}
-
-	if err == nil && query.RowsAffected < 1 {
-		return nil, errors.New(helper.NOTFOUND)
+func (repo *repository) UpdateData(id int, data *record.SocialMedia) (*record.SocialMedia, errs.MessageErr) {
+	if err := repo.db.Where("id", id).Updates(data).Scan(data).Error; err != nil {
+		return nil, errs.NewError(http.StatusInternalServerError)
 	}
 
 	return data, nil
 }
 
-func (repo *repository) DeleteData(id int) error {
-	query := repo.db.Delete(new(record.SocialMedia), "id", id)
-	if query.Error == nil && query.RowsAffected < 1 {
-		return errors.New(helper.NOTFOUND)
+func (repo *repository) DeleteData(id int) errs.MessageErr {
+	if err := repo.db.Delete(new(record.SocialMedia), "id", id).Error; err != nil {
+		return errs.NewError(http.StatusInternalServerError)
 	}
 
-	return query.Error
+	return nil
 }
 
 func NewGORMRepository(db *gorm.DB) socialmedia.Repository {
