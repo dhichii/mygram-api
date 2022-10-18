@@ -81,9 +81,9 @@ func (h *Handler) GetAllPhotosHandler(c *gin.Context) {
 // @Router /photos/{photoId} [put]
 func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 	request := request.Request{}
-	id, err := strconv.Atoi(c.Param("photoId"))
-	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
+	id, _ := strconv.Atoi(c.Param("photoId"))
+	if id < 1 {
+		helper.CreateMessageResponse(c, http.StatusBadRequest, "param must be a number greater than 0")
 		return
 	}
 

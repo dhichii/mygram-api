@@ -79,9 +79,9 @@ func (h *Handler) GetAllCommentsHandler(c *gin.Context) {
 // @Success 200 {object} response.UpdateResponse
 // @Router /comments/{commentId} [put]
 func (h *Handler) UpdateCommentHandler(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("commentId"))
-	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
+	id, _ := strconv.Atoi(c.Param("commentId"))
+	if id < 1 {
+		helper.CreateMessageResponse(c, http.StatusBadRequest, "param must be a number greater than 0")
 		return
 	}
 
@@ -122,9 +122,9 @@ func (h *Handler) UpdateCommentHandler(c *gin.Context) {
 // @Success 200 {object} structs.Message
 // @Router /comments/{commentId} [delete]
 func (h *Handler) DeleteCommentHandler(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("commentId"))
-	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
+	id, _ := strconv.Atoi(c.Param("commentId"))
+	if id < 1 {
+		helper.CreateMessageResponse(c, http.StatusBadRequest, "param must be a number greater than 0")
 		return
 	}
 

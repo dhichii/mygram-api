@@ -79,9 +79,9 @@ func (h *Handler) GetAllSocialMediasHandler(c *gin.Context) {
 // @Success 200 {object} response.UpdateResponse
 // @Router /socialmedias/{socialMediaId} [put]
 func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("socialMediaId"))
-	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
+	id, _ := strconv.Atoi(c.Param("socialMediaId"))
+	if id < 1 {
+		helper.CreateMessageResponse(c, http.StatusBadRequest, "param must be a number greater than 0")
 		return
 	}
 
@@ -122,9 +122,9 @@ func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
 // @Success 200 {object} structs.Message
 // @Router /socialmedias/{socialMediaId} [delete]
 func (h *Handler) DeleteSocialMediaHandler(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("socialMediaId"))
-	if err != nil {
-		helper.CreateMessageResponse(c, http.StatusBadRequest, err.Error())
+	id, _ := strconv.Atoi(c.Param("socialMediaId"))
+	if id < 1 {
+		helper.CreateMessageResponse(c, http.StatusBadRequest, "param must be a number greater than 0")
 		return
 	}
 
