@@ -3,6 +3,7 @@ package service
 import (
 	"mygram-api/src/app/photo"
 	"mygram-api/src/app/photo/repository/record"
+	"mygram-api/src/helper/errs"
 )
 
 type service struct {
@@ -10,24 +11,22 @@ type service struct {
 }
 
 // PostPhoto post new photo
-func (s *service) PostPhoto(photo *record.Photo) (*record.Photo, error) {
+func (s *service) PostPhoto(photo *record.Photo) (*record.Photo, errs.MessageErr) {
 	return s.repo.CreateData(photo)
 }
 
 // GetAllPhotos get all photos
-func (s *service) GetAllPhotos() ([]record.Photo, error) {
+func (s *service) GetAllPhotos() ([]record.Photo, errs.MessageErr) {
 	return s.repo.GetAllData()
 }
 
 // UpdatePhoto update photo data by the given id
-// it will be return forbidden error if the UserID is different
-func (s *service) UpdatePhoto(id int, photo *record.Photo) (*record.Photo, error) {
+func (s *service) UpdatePhoto(id int, photo *record.Photo) (*record.Photo, errs.MessageErr) {
 	return s.repo.UpdateData(id, photo)
 }
 
 // DeletePhoto delete the photo by the given id
-// it will be return forbidden error if the UserID is different
-func (s *service) DeletePhoto(id int) error {
+func (s *service) DeletePhoto(id int) errs.MessageErr {
 	return s.repo.DeleteData(id)
 }
 
