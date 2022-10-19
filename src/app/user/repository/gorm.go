@@ -6,6 +6,7 @@ import (
 	"mygram-api/src/helper"
 	"mygram-api/src/helper/errs"
 	"net/http"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -17,7 +18,15 @@ type repository struct {
 // CreateData create new data from the given input
 func (repo *repository) CreateData(data *record.User) (*record.User, errs.MessageErr) {
 	if err := repo.db.Create(data).Error; err != nil {
-		return nil, errs.NewCustomError(http.StatusInternalServerError, err.Error())
+		if strings.Contains(err.Error(), "unique") {
+			if strings.Contains(err.Error(), "email") {
+				return nil, errs.NewCustomError(http.StatusBadRequest, "email is already used")
+			}
+
+			return nil, errs.NewCustomError(http.StatusBadRequest, "username is already used")
+		}
+
+		return nil, errs.NewError(http.StatusInternalServerError)
 	}
 
 	return data, nil
@@ -41,7 +50,15 @@ func (repo *repository) FindDataByEmail(email string) (*record.User, errs.Messag
 // UpdateData update the data by the given id
 func (repo *repository) UpdateData(id int, data *record.User) (*record.User, errs.MessageErr) {
 	if err := repo.db.Where("id", id).Updates(data).Scan(data).Error; err != nil {
-		return nil, errs.NewCustomError(http.StatusInternalServerError, err.Error())
+		if strings.Contains(err.Error(), "unique") {
+			if strings.Contains(err.Error(), "email") {
+				return nil, errs.NewCustomError(http.StatusBadRequest, "email is already used")
+			}
+
+			return nil, errs.NewCustomError(http.StatusBadRequest, "username is already used")
+		}
+
+		return nil, errs.NewError(http.StatusInternalServerError)
 	}
 
 	return data, nil

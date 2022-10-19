@@ -7,7 +7,6 @@ import (
 	"mygram-api/src/helper"
 	"mygram-api/src/helper/errs"
 	"net/http"
-	"strings"
 )
 
 type service struct {
@@ -16,20 +15,7 @@ type service struct {
 
 // RegisterUser register the new user by create new data
 func (s *service) RegisterUser(user *record.User) (*record.User, errs.MessageErr) {
-	result, err := s.repo.CreateData(user)
-	if err != nil {
-		if strings.Contains(err.Message(), "unique") {
-			if strings.Contains(err.Message(), "email") {
-				return nil, errs.NewCustomError(http.StatusBadRequest, "email is already used")
-			}
-
-			return nil, errs.NewCustomError(http.StatusBadRequest, "username is already used")
-		}
-
-		return nil, errs.NewError(err.Status())
-	}
-
-	return result, nil
+	return s.repo.CreateData(user)
 }
 
 // LoginUser login the user and return the jwt if request valid
@@ -49,20 +35,7 @@ func (s *service) LoginUser(login request.LoginRequest) (*string, errs.MessageEr
 
 // UpdateUser update user data by the given id
 func (s *service) UpdateUser(id int, user *record.User) (*record.User, errs.MessageErr) {
-	result, err := s.repo.UpdateData(id, user)
-	if err != nil {
-		if strings.Contains(err.Message(), "unique") {
-			if strings.Contains(err.Message(), "email") {
-				return nil, errs.NewCustomError(http.StatusBadRequest, "email is already used")
-			}
-
-			return nil, errs.NewCustomError(http.StatusBadRequest, "username is already used")
-		}
-
-		return nil, errs.NewError(err.Status())
-	}
-
-	return result, nil
+	return s.repo.UpdateData(id, user)
 }
 
 // DeleteUser delete the user data by the given id
