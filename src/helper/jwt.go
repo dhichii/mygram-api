@@ -26,10 +26,6 @@ func GetAuthorization(c *gin.Context) string {
 	return c.Request.Header.Get("Authorization")
 }
 
-func GetJWT(header string) string {
-	return strings.Split(header, " ")[1]
-}
-
 func ExtractJWT(tokenStr string) (interface{}, error) {
 	secret := env.GetSecretJWTEnv()
 	token, _ := jwt.Parse(tokenStr, func(t *jwt.Token) (interface{}, error) {
@@ -50,6 +46,10 @@ func ValidateJWT(c *gin.Context) (interface{}, error) {
 		return nil, errors.New("sign in to process")
 	}
 
-	token := GetJWT(header)
-	return ExtractJWT(token)
+	token := strings.Split(header, " ")
+	if len(token) != 2 {
+		return nil, errors.New("sign in to process")
+	}
+
+	return ExtractJWT(token[1])
 }
