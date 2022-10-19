@@ -72,7 +72,7 @@ func (h *Handler) GetAllSocialMediasHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id path int true "socialMediaId"
+// @Param socialMediaId path int true "socialMediaId"
 // @Param RequestBody body request.Request true "json request body"
 // @Success 200 {object} response.UpdateResponse
 // @Router /socialmedias/{socialMediaId} [put]
@@ -109,7 +109,7 @@ func (h *Handler) UpdateSocialMediaHandler(c *gin.Context) {
 // @ID delete-social-media
 // @Produce json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id path int true "socialMediaId"
+// @Param socialMediaId path int true "socialMediaId"
 // @Success 200 {object} structs.Message
 // @Router /socialmedias/{socialMediaId} [delete]
 func (h *Handler) DeleteSocialMediaHandler(c *gin.Context) {

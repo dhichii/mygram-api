@@ -120,7 +120,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "commentId",
-                        "name": "id",
+                        "name": "commentId",
                         "in": "path",
                         "required": true
                     },
@@ -164,7 +164,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "commentId",
-                        "name": "id",
+                        "name": "commentId",
                         "in": "path",
                         "required": true
                     }
@@ -277,7 +277,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "photoId",
-                        "name": "id",
+                        "name": "photoId",
                         "in": "path",
                         "required": true
                     },
@@ -321,7 +321,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "photoId",
-                        "name": "id",
+                        "name": "photoId",
                         "in": "path",
                         "required": true
                     }
@@ -434,7 +434,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "socialMediaId",
-                        "name": "id",
+                        "name": "socialMediaId",
                         "in": "path",
                         "required": true
                     },
@@ -478,7 +478,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "socialMediaId",
-                        "name": "id",
+                        "name": "socialMediaId",
                         "in": "path",
                         "required": true
                     }
@@ -975,10 +975,6 @@ const docTemplate = `{
         "response.PostResponse": {
             "type": "object",
             "properties": {
-                "caption": {
-                    "type": "string",
-                    "example": "no caption"
-                },
                 "created_at": {
                     "type": "string",
                     "example": "2022-10-07T15:54:24.575005+07:00"
@@ -987,13 +983,13 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 1
                 },
-                "photo_url": {
+                "message": {
                     "type": "string",
-                    "example": "/example"
+                    "example": "wow"
                 },
-                "title": {
-                    "type": "string",
-                    "example": "holiday"
+                "photo_id": {
+                    "type": "integer",
+                    "example": 1
                 },
                 "user_id": {
                     "type": "integer",
@@ -1071,6 +1067,10 @@ const docTemplate = `{
                 "email": {
                     "type": "string",
                     "example": "example@gmail.com"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
                 },
                 "username": {
                     "type": "string",
