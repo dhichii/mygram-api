@@ -9,7 +9,7 @@ type Comment struct {
 	Message   string `gorm:"not null"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	User      User
+	User      User  `gorm:"constraint:OnDelete:CASCADE"`
 	Photo     Photo `gorm:"constraint:OnDelete:CASCADE"`
 }
 

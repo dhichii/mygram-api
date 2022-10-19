@@ -72,7 +72,7 @@ func (h *Handler) GetAllCommentsHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id path int true "commentId"
+// @Param commentId path int true "commentId"
 // @Param RequestBody body request.UpdateRequest true "json request body"
 // @Success 200 {object} response.UpdateResponse
 // @Router /comments/{commentId} [put]
@@ -109,7 +109,7 @@ func (h *Handler) UpdateCommentHandler(c *gin.Context) {
 // @ID delete-comment
 // @Produce json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id path int true "commentId"
+// @Param commentId path int true "commentId"
 // @Success 200 {object} structs.Message
 // @Router /comments/{commentId} [delete]
 func (h *Handler) DeleteCommentHandler(c *gin.Context) {

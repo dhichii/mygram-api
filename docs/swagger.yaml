@@ -244,21 +244,18 @@ definitions:
     type: object
   response.PostResponse:
     properties:
-      caption:
-        example: no caption
-        type: string
       created_at:
         example: "2022-10-07T15:54:24.575005+07:00"
         type: string
       id:
         example: 1
         type: integer
-      photo_url:
-        example: /example
+      message:
+        example: wow
         type: string
-      title:
-        example: holiday
-        type: string
+      photo_id:
+        example: 1
+        type: integer
       user_id:
         example: 1
         type: integer
@@ -313,6 +310,9 @@ definitions:
       email:
         example: example@gmail.com
         type: string
+      id:
+        example: 1
+        type: integer
       username:
         example: example
         type: string
@@ -391,7 +391,7 @@ paths:
         type: string
       - description: commentId
         in: path
-        name: id
+        name: commentId
         required: true
         type: integer
       produces:
@@ -417,7 +417,7 @@ paths:
         type: string
       - description: commentId
         in: path
-        name: id
+        name: commentId
         required: true
         type: integer
       - description: json request body
@@ -497,7 +497,7 @@ paths:
         type: string
       - description: photoId
         in: path
-        name: id
+        name: photoId
         required: true
         type: integer
       produces:
@@ -523,7 +523,7 @@ paths:
         type: string
       - description: photoId
         in: path
-        name: id
+        name: photoId
         required: true
         type: integer
       - description: json request body
@@ -603,7 +603,7 @@ paths:
         type: string
       - description: socialMediaId
         in: path
-        name: id
+        name: socialMediaId
         required: true
         type: integer
       produces:
@@ -629,7 +629,7 @@ paths:
         type: string
       - description: socialMediaId
         in: path
-        name: id
+        name: socialMediaId
         required: true
         type: integer
       - description: json request body

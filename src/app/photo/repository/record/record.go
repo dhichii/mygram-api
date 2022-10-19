@@ -10,7 +10,7 @@ type Photo struct {
 	UserID    int
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	User      User
+	User      User `gorm:"constraint:OnDelete:CASCADE"`
 }
 
 type User struct {

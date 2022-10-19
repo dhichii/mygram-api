@@ -73,7 +73,7 @@ func (h *Handler) GetAllPhotosHandler(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id path int true "photoId"
+// @Param photoId path int true "photoId"
 // @Param RequestBody body request.Request true "json request body"
 // @Success 200 {object} response.UpdateResponse
 // @Router /photos/{photoId} [put]
@@ -110,7 +110,7 @@ func (h *Handler) UpdatePhotoHandler(c *gin.Context) {
 // @ID delete-photo
 // @Produce json
 // @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
-// @Param id path int true "photoId"
+// @Param photoId path int true "photoId"
 // @Success 200 {object} structs.Message
 // @Router /photos/{photoId} [delete]
 func (h *Handler) DeletePhotoHandler(c *gin.Context) {
